@@ -1,0 +1,23 @@
+{
+  "name": "react-game",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "client": "npm run start --prefix client"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KrohNic/react-game.git"
+  },
+  "author": "Kroh Nickolay",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KrohNic/react-game/issues"
+  },
+  "homepage": "https://github.com/KrohNic/react-game#readme",
+  "dependencies": {
+    "react-redux": "^7.2.2",
+    "redux": "^4.0.5"
+  }
+}
