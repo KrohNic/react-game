@@ -1,12 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
+import 'materialize-css';
+import Board from './components/Board';
+import { connect } from 'react-redux';
+import {createBoard} from './redux/actions'
+import { fillSmallBoard } from './utils/boardGenerators'
 
-function App() {
+function App(props) {
+  props.createBoard(fillSmallBoard());
+
   return (
-    <h1>
-      React
-    </h1>
+    <Board/>
   );
 }
 
-export default App;
+const mapDispatchToProps = {
+  createBoard
+};
+
+export default connect(null, mapDispatchToProps)(App);
