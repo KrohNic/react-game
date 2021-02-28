@@ -8,31 +8,34 @@ const fillBoard = ({width, height, bombRatio}) => {
       .fill(undefined)
       .map(() => ({type: BTN, value: 0})));
 
-  for(let h = 0; h < height; h += 1) {
-    for(let w = 0; w < width; w += 1) {
+  for(let y = 0; y < height; y += 1) {
+    for(let x = 0; x < width; x += 1) {
       const isBomb = Math.random() < bombRatio;
+
+      cells[y][x].x = x;
+      cells[y][x].y = y;
 
       if (!isBomb) continue;
       
-      cells[h][w].value = BOMB;
+      cells[y][x].value = BOMB;
 
-      if (h > 0 && cells[h - 1][w].value !== BOMB)
-        cells[h - 1][w].value += 1;
-      if (h < height - 1 && cells[h + 1][w].value !== BOMB)
-        cells[h + 1][w].value += 1;
-      if (w > 0 && cells[h][w - 1].value !== BOMB)
-        cells[h][w - 1].value += 1;
-      if (w < width - 1 && cells[h][w + 1].value !== BOMB)
-        cells[h][w + 1].value += 1;
+      if (y > 0 && cells[y - 1][x].value !== BOMB)
+        cells[y - 1][x].value += 1;
+      if (y < height - 1 && cells[y + 1][x].value !== BOMB)
+        cells[y + 1][x].value += 1;
+      if (x > 0 && cells[y][x - 1].value !== BOMB)
+        cells[y][x - 1].value += 1;
+      if (x < width - 1 && cells[y][x + 1].value !== BOMB)
+        cells[y][x + 1].value += 1;
       
-      if (h > 0 && w > 0 && cells[h - 1][w - 1].value !== BOMB)
-        cells[h - 1][w - 1].value += 1;
-      if (h > 0 && w < width - 1 && cells[h - 1][w + 1].value !== BOMB)
-        cells[h - 1][w + 1].value += 1;
-      if (h < height - 1 && w > 0 && cells[h + 1][w - 1].value !== BOMB)
-        cells[h + 1][w - 1].value += 1;
-      if (h < height - 1 && w < width - 1 && cells[h + 1][w + 1].value !== BOMB)
-        cells[h + 1][w + 1].value += 1;
+      if (y > 0 && x > 0 && cells[y - 1][x - 1].value !== BOMB)
+        cells[y - 1][x - 1].value += 1;
+      if (y > 0 && x < width - 1 && cells[y - 1][x + 1].value !== BOMB)
+        cells[y - 1][x + 1].value += 1;
+      if (y < height - 1 && x > 0 && cells[y + 1][x - 1].value !== BOMB)
+        cells[y + 1][x - 1].value += 1;
+      if (y < height - 1 && x < width - 1 && cells[y + 1][x + 1].value !== BOMB)
+        cells[y + 1][x + 1].value += 1;
     }
   }
 

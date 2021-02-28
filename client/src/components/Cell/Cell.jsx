@@ -1,7 +1,14 @@
 import React from 'react';
 import {BTN, FLAG, REVEAL} from '../../constants/cell_types'
 import './cell.scss';
-import CellBtn from './CellBtn/CellBtn';
+
+const CellBtn = ({value}) => (
+  <div className='cell--btn'>
+    {value}
+  </div>
+)
+
+const CellFlag = () => <div className="cell--flag">!</div>
 
 const Cell = ({type, value, coord}) => {
   let cell;
@@ -11,9 +18,10 @@ const Cell = ({type, value, coord}) => {
       cell = <CellBtn /> 
       break;
     case FLAG:
+      cell = <CellFlag />
       break;
     case REVEAL:
-      cell = <div className="cell-reveal">
+      cell = <div className="cell--reveal">
         {value || ''}
       </div>
       break;
