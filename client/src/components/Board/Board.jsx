@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import Cell from '../Cell'
-import {createBoard, showEndWindow} from '../../redux/actions'
+import {updateCells, showEndWindow} from '../../redux/actions'
 import { REVEAL, BOMB, FLAG, BTN } from '../../constants/cell_types';
 import './Board.scss';
 
@@ -9,7 +9,7 @@ const Board = () => {
   const dispatch = useDispatch();
   const cellsData = useSelector(state => state.board.cells);
   const lastY = cellsData.length - 1;
-  const lastX = cellsData[0].length - 1;
+  const lastX = cellsData[0] && cellsData[0].length - 1;
 
   const revealCellsArea = (startX, startY, cells) => {
     const queue = [{x: startX, y: startY}];
@@ -50,6 +50,18 @@ const Board = () => {
     }
   }
   
+  const checkGameWin = (cells) => {
+    const isGameEnd = cells.every(row => row.every(cell => {
+      if (cell.value !== BOMB && cell.type !== REVEAL)
+        return false;
+
+      return true;
+      })
+    )
+
+    if (isGameEnd) dispatch(showEndWindow('You win!'));
+  }
+
   const revealCells = (x, y) => {
     const cellsDataCopy = [...cellsData];
 
@@ -60,14 +72,15 @@ const Board = () => {
         revealCellsArea(x, y, cellsDataCopy);
         break;
       case BOMB:
-        console.log('sds')
-        dispatch(showEndWindow('you'));
-        break;
+        dispatch(updateCells(cellsDataCopy));
+        dispatch(showEndWindow('you lose'));
+        return;
       default:
         break;
     }
 
-    dispatch(createBoard(cellsDataCopy));
+    dispatch(updateCells(cellsDataCopy));
+    checkGameWin(cellsDataCopy);
   }
 
   const revealAroundCell = (x, y, cells) => {
@@ -91,16 +104,14 @@ const Board = () => {
       return flags;
     }, 0);
 
-    console.log(bombsMarked, bombsCount);
-
-    if (bombsMarked < bombsCount) return;
+    if (bombsMarked !== bombsCount) return;
 
     surroundingCells.forEach(cell => {
       if (cell && cell.type === BTN)
         revealCells(cell.x, cell.y);
     });
 
-    dispatch(createBoard(cells));
+    dispatch(updateCells(cells));
   }
   
   const clickHandler = (event) => {
@@ -125,14 +136,15 @@ const Board = () => {
     
     const x = Number(cell.dataset.coordX);
     const y = Number(cell.dataset.coordY);
+    const cellType = cellsData[y][x].type;
 
-    if (cellsData[y][x].type !== BTN) return;
-
+    if (cellType !== BTN && cellType !== FLAG) return;
+    
     const cellsDataCopy = [...cellsData];
 
-    cellsDataCopy[y][x].type = FLAG;
+    cellsDataCopy[y][x].type = cellType === BTN ? FLAG : BTN;
 
-    dispatch(createBoard(cellsDataCopy));
+    dispatch(updateCells(cellsDataCopy));
   }
 
   const mouseDownHandler = (event) => {
@@ -152,7 +164,7 @@ const Board = () => {
     revealAroundCell(x, y, cellsDataCopy);
   }
 
-  const rowLength = cellsData[0].length;
+  const rowLength = cellsData[0] && cellsData[0].length;
 
   const cells = cellsData.map((row, y) => row.map((cell, x) => {
     return <Cell

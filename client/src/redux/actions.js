@@ -1,7 +1,8 @@
-import {CREATE_BOARD, HIDE_END_WINDOW, SHOW_END_WINDOW} from './types';
+import {UPDATE_CELLS, HIDE_END_WINDOW, SHOW_END_WINDOW} from './types';
+import {fillSmallBoard} from '../utils/boardGenerators'
 
-export const createBoard = (cells) => ({
-  type: CREATE_BOARD,
+export const updateCells = (cells) => ({
+  type: UPDATE_CELLS,
   payload: cells
 })
 
@@ -14,3 +15,7 @@ export const hideEndWindow = () => ({
   type: HIDE_END_WINDOW
 })
 
+export const newGame = () => dispatch => {
+  dispatch(hideEndWindow());
+  dispatch(updateCells(fillSmallBoard()));
+}

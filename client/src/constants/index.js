@@ -1,1 +1,1 @@
-export const BOMB_RATIO = 0.1;
+export const BOMB_RATIO = 0.2;

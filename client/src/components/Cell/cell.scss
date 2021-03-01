@@ -1,16 +1,14 @@
 .cell {
   width: 50px;
   height: 50px;
-  box-sizing: border-box;
 
-  &--reveal {
+  * {
     width: 100%;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgb(90, 90, 90);
-    color: white;
+    font-weight: 900;
     -webkit-touch-callout: none; /* iOS Safari */
     -webkit-user-select: none;   /* Chrome/Safari/Opera */
     -khtml-user-select: none;    /* Konqueror */
@@ -19,15 +17,19 @@
     user-select: none;
   }
 
+  &--reveal {
+    background-color: #ced5df;
+    color: black;
+  }
+
   %shared_tile {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     background-color: #ddd;
     border: 4px;
     border-style: outset;
+  }
+
+  &--flag {
+    @extend %shared_tile;
   }
 
   &--btn {
@@ -44,13 +46,35 @@
     }
   }
 
-  &--flag {
-    @extend %shared_tile;
-    -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none;   /* Chrome/Safari/Opera */
-    -khtml-user-select: none;    /* Konqueror */
-    -moz-user-select: none;      /* Firefox */
-    -ms-user-select: none;       /* Internet Explorer/Edge */
-    user-select: none;
+  .color-1 {
+    color: #005F9D;
+  }
+
+  .color-2 {
+    color: #00650D;
+  }
+
+  .color-3 {
+    color: #B1002A;
+  }
+
+  .color-4 {
+    color: #1500D7;
+  }
+
+  .color-5 {
+    color: #b32000;
+  }
+
+  .color-6 {
+    color: #006661;
+  }
+
+  .color-7 {
+    color: #a200a8;
+  }
+
+  .color-8 {
+    color: #a63100;
   }
 }

@@ -8,9 +8,9 @@ const initialState = {
 const endWindowReducer = (state = initialState, action) => {
   switch (action.type) {
     case SHOW_END_WINDOW: 
-      return {...state, endWindow: true, title: action.payload}
+      return {...state, show: true, title: action.payload}
     case HIDE_END_WINDOW: 
-      return {...state, endWindow: false}
+      return {...state, show: false}
     default: return state
   }
 }

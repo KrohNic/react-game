@@ -10,6 +10,16 @@ const CellBtn = ({value}) => (
 
 const CellFlag = () => <div className="cell--flag">!</div>
 
+const CellNumber = ({children}) => {
+  let classNames = `cell--reveal color-${children}`;
+
+  return (
+    <div className={classNames}>
+      {children || ''}
+    </div>
+  )
+}
+
 const Cell = ({type, value, coord}) => {
   let cell;
   
@@ -21,9 +31,7 @@ const Cell = ({type, value, coord}) => {
       cell = <CellFlag />
       break;
     case REVEAL:
-      cell = <div className="cell--reveal">
-        {value || ''}
-      </div>
+      cell = <CellNumber>{value}</CellNumber>
       break;
   
     default:

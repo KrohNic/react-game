@@ -1,17 +1,22 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { hideEndWindow } from '../../redux/actions';
+import { newGame } from '../../redux/actions';
 
 const EndGameWindow = () => {
   const title = useSelector(state => state.endWindow.title);
   const dispatch = useDispatch();
-  const close = () => dispatch(hideEndWindow());
-  
+  const clickHandler = () => dispatch(newGame())
+
   return (
     <div>
       <h2>{title}</h2>
 
-      <button onClick={close}>Next game</button>
+      <button
+        onClick={clickHandler}
+        className="waves-effect waves-light btn-large"
+      >
+        Next game
+      </button>
     </div>
   )
 }

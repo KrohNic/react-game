@@ -1,27 +1,25 @@
-import 'materialize-css';
-import Board from './components/Board';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {createBoard} from './redux/actions'
-import { fillSmallBoard } from './utils/boardGenerators'
+import Board from './components/Board';
+import { newGame} from './redux/actions'
 import Modal from './components/Modal';
 import EndGameWindow from './components/EndGameWindow';
+import 'materialize-css';
 
 function App() {
   const isEndWindow = useSelector(state => state.endWindow.show);
   const dispatch = useDispatch();
-  const EndWindow = () => (
+  const EndGameModal = () => (
     <Modal>
       <EndGameWindow />
     </Modal>
   );
 
-  dispatch(createBoard(fillSmallBoard()));
-
-  console.log('app render', isEndWindow)
+  useEffect(() => dispatch(newGame()), [dispatch]);
 
   return (
     <>
-      {isEndWindow && <EndWindow />}
+      {isEndWindow && <EndGameModal />}
       <Board/>
     </>
   );
