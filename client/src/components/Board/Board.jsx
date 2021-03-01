@@ -1,11 +1,13 @@
 import React from 'react'
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Cell from '../Cell'
-import {createBoard} from '../../redux/actions'
+import {createBoard, showEndWindow} from '../../redux/actions'
 import { REVEAL, BOMB, FLAG, BTN } from '../../constants/cell_types';
 import './Board.scss';
 
-const Board = ({cellsData, createBoard}) => {
+const Board = () => {
+  const dispatch = useDispatch();
+  const cellsData = useSelector(state => state.board.cells);
   const lastY = cellsData.length - 1;
   const lastX = cellsData[0].length - 1;
 
@@ -58,13 +60,14 @@ const Board = ({cellsData, createBoard}) => {
         revealCellsArea(x, y, cellsDataCopy);
         break;
       case BOMB:
-        console.log('you lose');
+        console.log('sds')
+        dispatch(showEndWindow('you'));
         break;
       default:
         break;
     }
 
-    createBoard(cellsDataCopy)
+    dispatch(createBoard(cellsDataCopy));
   }
 
   const revealAroundCell = (x, y, cells) => {
@@ -97,7 +100,7 @@ const Board = ({cellsData, createBoard}) => {
         revealCells(cell.x, cell.y);
     });
 
-    createBoard(cells);
+    dispatch(createBoard(cells));
   }
   
   const clickHandler = (event) => {
@@ -129,7 +132,7 @@ const Board = ({cellsData, createBoard}) => {
 
     cellsDataCopy[y][x].type = FLAG;
 
-    createBoard(cellsDataCopy);
+    dispatch(createBoard(cellsDataCopy));
   }
 
   const mouseDownHandler = (event) => {
@@ -146,7 +149,7 @@ const Board = ({cellsData, createBoard}) => {
 
     const cellsDataCopy = [...cellsData];
 
-    revealAroundCell(x, y, cellsDataCopy, createBoard);
+    revealAroundCell(x, y, cellsDataCopy);
   }
 
   const rowLength = cellsData[0].length;
@@ -159,9 +162,7 @@ const Board = ({cellsData, createBoard}) => {
       coord={{x, y}}
     />;
   }));
-
-  console.log('render Board');
-
+  
   return (
     <div
       className="board"
@@ -175,10 +176,4 @@ const Board = ({cellsData, createBoard}) => {
   )
 }
 
-const mapStateToProps = state => ({cellsData: state.board.cells});
-
-const mapDispatchToProps = {
-  createBoard
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Board);
+export default Board;
