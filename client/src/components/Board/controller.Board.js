@@ -2,12 +2,12 @@ import { REVEAL, BOMB, FLAG, BTN } from '../../constants/cell_types';
 import {
   updateCells,
   showEndWindow,
-  decrementBombLeft,
-  incrementBombLeft,
+  decreaseBombLeft,
+  increaseBombLeft,
   setGameStarted,
 } from '../../redux/actions';
 
-const getCoordCellsAround = (x, y, cells, lastX, lastY) => {
+const getCoordCellsAround = (x, y, lastX, lastY) => {
   const top = y > 0 && { y: y - 1, x: x };
   const bottom = y < lastY && { y: y + 1, x: x };
   const left = x > 0 && { y: y, x: x - 1 };
@@ -49,7 +49,7 @@ export const createCells = (bombs, lastY, lastX) => {
     cells[bombY][bombX].value = BOMB;
     unplacedBombs -= 1;
 
-    const cellsAround = getCoordCellsAround(bombX, bombY, cells, lastX, lastY);
+    const cellsAround = getCoordCellsAround(bombX, bombY, lastX, lastY);
 
     cellsAround.forEach(({ x, y }) => {
       if (cells[y][x].value !== BOMB) cells[y][x].value += 1;
@@ -70,7 +70,7 @@ const revealCellsArea = (startX, startY, cells, lastX, lastY) => {
 
     if (current.value !== 0) continue;
 
-    const cellsAround = getCoordCellsAround(x, y, cells, lastX, lastY);
+    const cellsAround = getCoordCellsAround(x, y, lastX, lastY);
 
     cellsAround.forEach((coord) => {
       if (
@@ -84,7 +84,7 @@ const revealCellsArea = (startX, startY, cells, lastX, lastY) => {
 };
 
 const checkGameWin = (cells, dispatch) => {
-  const isGameEnd = cells.every((row) =>
+  const isGameEnded = cells.every((row) =>
     row.every((cell) => {
       if (cell.value !== BOMB && cell.type !== REVEAL) return false;
 
@@ -92,7 +92,7 @@ const checkGameWin = (cells, dispatch) => {
     })
   );
 
-  if (isGameEnd) dispatch(showEndWindow('You win!'));
+  if (isGameEnded) dispatch(showEndWindow('You win!'));
 };
 
 const revealCell = (x, y, cells, lastX, lastY, dispatch) => {
@@ -118,7 +118,7 @@ export const revealAroundCell = (x, y, cells, lastX, lastY, dispatch) => {
 
   const cellsCopy = [...cells];
   const bombsAround = cellsCopy[y][x].value;
-  const surroundingCells = getCoordCellsAround(x, y, cellsCopy, lastX, lastY);
+  const surroundingCells = getCoordCellsAround(x, y, lastX, lastY);
 
   const bombsMarked = surroundingCells.reduce((marks, coord) => {
     if (cellsCopy[coord.y][coord.x].type === FLAG) return marks + 1;
@@ -206,10 +206,10 @@ export const markCell = (x, y, cellsData, dispatch) => {
 
   if (cellType === BTN) {
     cellsDataCopy[y][x].type = FLAG;
-    dispatch(decrementBombLeft());
+    dispatch(decreaseBombLeft());
   } else {
     cellsDataCopy[y][x].type = BTN;
-    dispatch(incrementBombLeft());
+    dispatch(increaseBombLeft());
   }
 
   dispatch(updateCells(cellsDataCopy));

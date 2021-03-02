@@ -7,7 +7,7 @@ import 'materialize-css';
 import GameInfo from './components/GameInfo/GameInfo';
 
 function App() {
-  const isEndWindow = useSelector(state => state.endWindow.show);
+  const isEndWindow = useSelector((state) => state.endWindow.isGameEnded);
   const EndGameModal = () => (
     <Modal>
       <EndGameWindow />
@@ -17,11 +17,10 @@ function App() {
   return (
     <>
       {isEndWindow && <EndGameModal />}
-      <GameInfo/>
-      <Board/>
+      <GameInfo />
+      <Board />
     </>
   );
 }
 
 export default App;
-
