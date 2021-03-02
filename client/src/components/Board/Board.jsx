@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import Cell from '../Cell'
-import {updateCells, showEndWindow, decrementBombLeft, incrementBombLeft, newGame, isGameStarted } from '../../redux/actions'
+import {updateCells, showEndWindow, decrementBombLeft, incrementBombLeft, newGame, setGameStarted } from '../../redux/actions'
 import { REVEAL, BOMB, FLAG, BTN } from '../../constants/cell_types';
 import './Board.scss';
-
+ 
 const Board = () => {
   const dispatch = useDispatch();
   const cellsData = useSelector(state => state.board.cells);
@@ -114,8 +114,6 @@ const Board = () => {
     let cellsCopy = cells;
 
     while (cellsCopy[y][x].value !== 0) {
-      console.log('cell.value ===', cellsCopy[y][x].value);
-
       cellsCopy = createCells(bombs, lastY, lastX);
     }
 
@@ -123,54 +121,60 @@ const Board = () => {
   }
 
   const firstClickHandler = (x, y, cells) => {
-    dispatch(isGameStarted(true));
+    dispatch(setGameStarted(true));
     return hitAreaByFirstClick(x, y, cells);
   }
 
-  const revealCells = (x, y, cellsDataCopy) => {
-    cellsDataCopy[y][x].type = REVEAL;
+  const revealCells = (x, y, cells) => {
+    cells[y][x].type = REVEAL;
 
-    switch (cellsDataCopy[y][x].value) {
+    switch (cells[y][x].value) {
       case 0:
-        revealCellsArea(x, y, cellsDataCopy);
+        revealCellsArea(x, y, cells);
         break;
       case BOMB:
-        dispatch(updateCells(cellsDataCopy));
+        dispatch(updateCells(cells));
         dispatch(showEndWindow('you lose'));
         return;
       default:
         break;
     }
 
-    checkGameWin(cellsDataCopy);
+    checkGameWin(cells);
   }
 
-  const revealAroundCell = (x, y, cells) => {
-    const bombsCount = cells[y][x].value;
-    const top = y > 0 && cells[y - 1][x];
-    const bottom = y < lastY && cells[y + 1][x];
-    const left = x > 0 && cells[y][x - 1];
-    const right = x < lastX && cells[y][x + 1];
-    const topLeft = y > 0 && x > 0 && cells[y - 1][x - 1];
-    const topRight = y > 0 && x < lastX && cells[y - 1][x + 1];
-    const bottomLeft = y < lastY && x > 0 && cells[y + 1][x - 1];
-    const bottomRight = y < lastY && x < lastX && cells[y + 1][x + 1];
+  const revealAroundCell = (startX, startY, cells) => {
+    const bombsAround = cells[startY][startX].value;
+    const top = startY > 0 && {y:startY - 1, x:startX};
+    const bottom = startY < lastY && {y:startY + 1,x:startX};
+    const left = startX > 0 && {y:startY, x:startX - 1};
+    const right = startX < lastX && {y:startY, x:startX + 1};
+    const topLeft = startY > 0 && startX > 0 && {y:startY - 1, x:startX - 1};
+    const topRight = startY > 0 && startX < lastX && {y:startY - 1, x:startX + 1};
+    const bottomLeft = 
+      startY < lastY && 
+      startX > 0 && 
+      {y:startY + 1, x:startX - 1};
+    const bottomRight = 
+      startY < lastY && 
+      startX < lastX && 
+      {y:startY + 1, x:startX + 1};
     const surroundingCells = [
       top, bottom, left, right, topLeft, topRight, bottomLeft, bottomRight
     ];
 
-    const bombsMarked = surroundingCells.reduce((flags, cell) => {
-      if (cell && cell.type === FLAG)
-        return flags + 1;
+    const bombsMarked = surroundingCells.reduce((marks, coord) => {
+      if (coord && cells[coord.y][coord.x].type === FLAG)
+        return marks + 1;
       
-      return flags;
+      return marks;
     }, 0);
 
-    if (bombsMarked !== bombsCount) return;
+    if (bombsMarked !== bombsAround) return;
 
-    surroundingCells.forEach(cell => {
-      if (cell && cell.type === BTN)
-        revealCells(cell.x, cell.y, cells);
+    surroundingCells.forEach(coord => {
+      if (coord && cells[coord.y][coord.x].type === BTN)
+        revealCells(coord.x, coord.y, cells);
     });
 
     dispatch(updateCells(cells));
@@ -188,9 +192,8 @@ const Board = () => {
     
     let cellsDataCopy = [...cellsData];
 
-    if (!started) {
-      cellsDataCopy = firstClickHandler(x, y, cells);
-    }
+    if (!started)
+      cellsDataCopy = firstClickHandler(x, y, cellsDataCopy);
 
     revealCells(x, y, cellsDataCopy);
     dispatch(updateCells(cellsDataCopy));
@@ -242,14 +245,14 @@ const Board = () => {
     revealAroundCell(x, y, cellsDataCopy);
   }
 
-  const cells = cellsData.map((row, y) => row.map((cell, x) => {
-    return <Cell
+  const cells = cellsData.map((row, y) => row.map((cell, x) => (
+    <Cell
       key={rowLength * y + x}
       type={cell.type}
       value={cell.value}
       coord={{x, y}}
-    />;
-  }));
+    />
+  )));
   
   useEffect(() => {
     if (!started) {
