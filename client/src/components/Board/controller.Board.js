@@ -92,7 +92,7 @@ const checkGameWin = (cells, dispatch) => {
     })
   );
 
-  if (isGameEnded) dispatch(showEndWindow('You win!'));
+  if (isGameEnded) dispatch(showEndWindow(true));
 };
 
 const revealCell = (x, y, cells, lastX, lastY, dispatch) => {
@@ -104,7 +104,7 @@ const revealCell = (x, y, cells, lastX, lastY, dispatch) => {
       break;
     case BOMB:
       dispatch(updateCells(cells));
-      dispatch(showEndWindow('you lose'));
+      dispatch(showEndWindow(false));
       return;
     default:
       break;

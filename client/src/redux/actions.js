@@ -41,9 +41,9 @@ export const increaseTime = () => ({
   type: INCREASE_TIME,
 });
 
-export const showEndWindow = (title = '') => ({
+export const showEndWindow = (isWin = '') => ({
   type: SHOW_END_WINDOW,
-  payload: title,
+  payload: isWin,
 });
 
 export const hideEndWindow = () => ({
