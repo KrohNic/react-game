@@ -1,15 +1,63 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import Cell from '../Cell'
-import {updateCells, showEndWindow} from '../../redux/actions'
+import {updateCells, showEndWindow, decrementBombLeft, incrementBombLeft, newGame, isGameStarted } from '../../redux/actions'
 import { REVEAL, BOMB, FLAG, BTN } from '../../constants/cell_types';
 import './Board.scss';
 
 const Board = () => {
   const dispatch = useDispatch();
   const cellsData = useSelector(state => state.board.cells);
-  const lastY = cellsData.length - 1;
-  const lastX = cellsData[0] && cellsData[0].length - 1;
+  const started = useSelector(state => state.board.started);
+  const bombs = useSelector(state => state.board.bombs);
+  const rowLength = 10;
+  const colLength = 8;
+  const lastY = colLength - 1;
+  const lastX = rowLength - 1;
+
+  const createCells = (bombs, lastY, lastX) => {
+    const cells = new Array(colLength)
+      .fill(undefined)
+      .map(() => new Array(rowLength)
+        .fill(undefined)
+        .map(() => ({type: BTN, value: 0})));
+
+    let unplacedBombs = bombs;
+
+    while (unplacedBombs) {
+      const x = Math.floor(Math.random() * lastX);
+      const y = Math.floor(Math.random() * lastY);
+
+      if (cells[y][x].value === BOMB) continue;
+      
+      cells[y][x].value = BOMB;
+      unplacedBombs -= 1;
+
+      if (y > 0 && cells[y - 1][x].value !== BOMB)
+        cells[y - 1][x].value += 1;
+      if (y < colLength - 1 && cells[y + 1][x].value !== BOMB)
+        cells[y + 1][x].value += 1;
+      if (x > 0 && cells[y][x - 1].value !== BOMB)
+        cells[y][x - 1].value += 1;
+      if (x < rowLength - 1 && cells[y][x + 1].value !== BOMB)
+        cells[y][x + 1].value += 1;
+      
+      if (y > 0 && x > 0 && cells[y - 1][x - 1].value !== BOMB)
+        cells[y - 1][x - 1].value += 1;
+      if (y > 0 && x < rowLength - 1 && cells[y - 1][x + 1].value !== BOMB)
+        cells[y - 1][x + 1].value += 1;
+      if (y < colLength - 1 && x > 0 && cells[y + 1][x - 1].value !== BOMB)
+        cells[y + 1][x - 1].value += 1;
+      if (
+        y < colLength - 1 && 
+        x < rowLength - 1 && 
+        cells[y + 1][x + 1].value !== BOMB
+      )
+        cells[y + 1][x + 1].value += 1;
+    }
+
+    return cells;
+  }
 
   const revealCellsArea = (startX, startY, cells) => {
     const queue = [{x: startX, y: startY}];
@@ -62,12 +110,27 @@ const Board = () => {
     if (isGameEnd) dispatch(showEndWindow('You win!'));
   }
 
-  const revealCells = (x, y) => {
-    const cellsDataCopy = [...cellsData];
+  const hitAreaByFirstClick = (x, y, cells) => {
+    let cellsCopy = cells;
 
+    while (cellsCopy[y][x].value !== 0) {
+      console.log('cell.value ===', cellsCopy[y][x].value);
+
+      cellsCopy = createCells(bombs, lastY, lastX);
+    }
+
+    return cellsCopy;
+  }
+
+  const firstClickHandler = (x, y, cells) => {
+    dispatch(isGameStarted(true));
+    return hitAreaByFirstClick(x, y, cells);
+  }
+
+  const revealCells = (x, y, cellsDataCopy) => {
     cellsDataCopy[y][x].type = REVEAL;
 
-    switch (cellsData[y][x].value) {
+    switch (cellsDataCopy[y][x].value) {
       case 0:
         revealCellsArea(x, y, cellsDataCopy);
         break;
@@ -79,7 +142,6 @@ const Board = () => {
         break;
     }
 
-    dispatch(updateCells(cellsDataCopy));
     checkGameWin(cellsDataCopy);
   }
 
@@ -108,7 +170,7 @@ const Board = () => {
 
     surroundingCells.forEach(cell => {
       if (cell && cell.type === BTN)
-        revealCells(cell.x, cell.y);
+        revealCells(cell.x, cell.y, cells);
     });
 
     dispatch(updateCells(cells));
@@ -124,10 +186,20 @@ const Board = () => {
 
     if (cellsData[y][x].type !== BTN) return;
     
-    revealCells(x, y);
+    let cellsDataCopy = [...cellsData];
+
+    if (!started) {
+      cellsDataCopy = firstClickHandler(x, y, cells);
+    }
+
+    revealCells(x, y, cellsDataCopy);
+    dispatch(updateCells(cellsDataCopy));
   }
 
   const mouseUpHandler = (event) => {
+    if (event.nativeEvent.which === 1 && event.buttons === 0)
+      return clickHandler(event);
+
     if (event.nativeEvent.which !== 3) return;
 
     const cell = event.target.closest('.cell');
@@ -142,7 +214,13 @@ const Board = () => {
     
     const cellsDataCopy = [...cellsData];
 
-    cellsDataCopy[y][x].type = cellType === BTN ? FLAG : BTN;
+    if (cellType === BTN) {
+      cellsDataCopy[y][x].type = FLAG;
+      dispatch(decrementBombLeft());
+    } else {
+      cellsDataCopy[y][x].type = BTN;
+      dispatch(incrementBombLeft());
+    }
 
     dispatch(updateCells(cellsDataCopy));
   }
@@ -164,8 +242,6 @@ const Board = () => {
     revealAroundCell(x, y, cellsDataCopy);
   }
 
-  const rowLength = cellsData[0] && cellsData[0].length;
-
   const cells = cellsData.map((row, y) => row.map((cell, x) => {
     return <Cell
       key={rowLength * y + x}
@@ -175,10 +251,18 @@ const Board = () => {
     />;
   }));
   
+  useEffect(() => {
+    if (!started) {
+      dispatch(newGame());
+      dispatch(updateCells(createCells(bombs, lastY, lastX)))
+    } 
+  }, [dispatch, started, bombs, lastY, lastX])
+
+  console.log('render board');
+
   return (
     <div
       className="board"
-      onClick={clickHandler}
       onMouseDown={mouseDownHandler}
       onMouseUp={mouseUpHandler}
       onContextMenu={e => e.preventDefault()}

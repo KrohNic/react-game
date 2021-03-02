@@ -1,1 +1,0 @@
-export const BOMB_RATIO = 0.2;

@@ -1,5 +1,6 @@
 .board {
-  width: fit-content;
+  width: 100%;
+  max-width: 500px;
   margin: 0 auto;
   display: grid;
   grid-template-columns: repeat(10, auto);
