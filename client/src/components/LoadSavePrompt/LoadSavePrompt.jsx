@@ -20,6 +20,12 @@ const LoadSavePrompt = () => {
     dispatch(restoreGame(state))
   }
 
+  const newGameHandler = () => {
+    localStorage.removeItem(SAVE_LS_NAME);
+
+    dispatch(showLoadPrompt(false));
+  }
+
   return (
     <Modal>
       <h5 className={`${CLASS_NAME}--title`}>
@@ -34,7 +40,7 @@ const LoadSavePrompt = () => {
           Load
         </button>
         <button
-          onClick={() => dispatch(showLoadPrompt(false))}
+          onClick={newGameHandler}
           className="waves-effect waves-light btn-large"
         >
           New game
