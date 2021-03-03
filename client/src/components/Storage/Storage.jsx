@@ -31,7 +31,7 @@ const Storage = () => {
       time, 
       isWin,
       size: `${width}x${height}`, 
-      difficulty: bombs,
+      difficulty: bombPerCell,
       date: Date.now()
     }
     let newRecordsList = [newRecord, ...records];

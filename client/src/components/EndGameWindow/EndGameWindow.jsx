@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { newGame } from '../../redux/actions';
 import CloseIcon from '@material-ui/icons/Close';
 import CheckIcon from '@material-ui/icons/Check';
+import {HARD, NORMAL} from '../../constants/difficulty';
 import './EndGameWindow.scss';
 
 const CLASS_NAME = "game_end";
@@ -18,6 +19,22 @@ const EndGameWindow = () => {
     let className = `${CLASS_NAME}--li-lose`;
     let title = "lose";
     let recordIco = <CloseIcon />;
+    let difficultyDescription;
+
+    console.log(difficulty, 1)
+
+    switch (Number(difficulty)) {
+      case NORMAL:
+        difficultyDescription = 'normal';
+        break;
+      case HARD:
+        difficultyDescription = 'hard';
+        break;
+    
+      default:
+        difficultyDescription = 'easy';
+        break;
+    }
 
     if(isWin) {
       className = `${CLASS_NAME}--li-win`;
@@ -28,7 +45,7 @@ const EndGameWindow = () => {
     return (
       <li key={date} className={className} title={title}>
         {recordIco}
-        {` ${time} sec, size: ${size}, difficulty: ${difficulty}, `}
+        {` ${time} sec, size: ${size}, difficulty: ${difficultyDescription}, `}
         {`${new Date(date).toLocaleString()}`}
       </li>
     )
