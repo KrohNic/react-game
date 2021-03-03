@@ -5,6 +5,7 @@ import Modal from './components/Modal';
 import EndGameWindow from './components/EndGameWindow';
 import 'materialize-css';
 import GameInfo from './components/GameInfo/GameInfo';
+import Storage from './components/Storage';
 
 function App() {
   const isEndWindow = useSelector((state) => state.endWindow.isGameEnded);
@@ -17,6 +18,7 @@ function App() {
   return (
     <>
       {isEndWindow && <EndGameModal />}
+      <Storage />
       <GameInfo />
       <Board />
     </>

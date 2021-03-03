@@ -1,5 +1,6 @@
 import React from 'react';
-import {BTN, FLAG, REVEAL} from '../../constants/cell_types'
+import FlagIcon from '@material-ui/icons/Flag';
+import {BTN, FLAG, REVEAL} from '../../constants/cell_types';
 import './cell.scss';
 
 const CellBtn = ({value}) => (
@@ -8,7 +9,9 @@ const CellBtn = ({value}) => (
   </div>
 )
 
-const CellFlag = () => <div className="cell--flag">!</div>
+const CellFlag = () => <div className="cell--flag">
+  <FlagIcon />
+</div>
 
 const CellNumber = ({children}) => {
   let classNames = `cell--reveal color-${children}`;

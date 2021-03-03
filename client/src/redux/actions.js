@@ -8,6 +8,7 @@ import {
   SET_STARTED,
   INCREASE_TIME,
   SET_TIME,
+  SET_RECORDS,
 } from './types';
 
 export const updateCells = (cells) => ({
@@ -48,6 +49,11 @@ export const showEndWindow = (isWin = '') => ({
 
 export const hideEndWindow = () => ({
   type: HIDE_END_WINDOW,
+});
+
+export const setRecords = (records) => ({
+  type: SET_RECORDS,
+  payload: records,
 });
 
 export const newGame = () => (dispatch) => {

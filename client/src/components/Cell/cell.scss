@@ -15,10 +15,10 @@
     font-size: 14px;
     font-weight: 900;
     -webkit-touch-callout: none; /* iOS Safari */
-    -webkit-user-select: none;   /* Chrome/Safari/Opera */
-    -khtml-user-select: none;    /* Konqueror */
-    -moz-user-select: none;      /* Firefox */
-    -ms-user-select: none;       /* Internet Explorer/Edge */
+    -webkit-user-select: none; /* Chrome/Safari/Opera */
+    -khtml-user-select: none; /* Konqueror */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
     user-select: none;
     z-index: -1;
   }
@@ -36,11 +36,19 @@
 
   &--flag {
     @extend %shared_tile;
+
+    color: #dc0000;
+
+    svg {
+      height: 100%;
+      width: 100%;
+      padding: 20%;
+    }
   }
 
   &--btn {
     @extend %shared_tile;
-    
+
     &:hover,
     &-highlighted {
       background-color: rgba(255, 255, 255, 0.6);
@@ -53,19 +61,19 @@
   }
 
   .color-1 {
-    color: #005F9D;
+    color: #005f9d;
   }
 
   .color-2 {
-    color: #00650D;
+    color: #00650d;
   }
 
   .color-3 {
-    color: #B1002A;
+    color: #b1002a;
   }
 
   .color-4 {
-    color: #1500D7;
+    color: #1500d7;
   }
 
   .color-5 {

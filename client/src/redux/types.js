@@ -8,3 +8,4 @@ export const INCREASE_TIME = 'INCREASE_TIME';
 
 export const SHOW_END_WINDOW = 'SHOW_END_WINDOW';
 export const HIDE_END_WINDOW = 'HIDE_END_WINDOW';
+export const SET_RECORDS = 'SET_RECORDS';

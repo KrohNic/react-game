@@ -9,6 +9,8 @@ import {
 } from './types';
 
 const initialState = {
+  width: 10,
+  height: 8,
   cells: [],
   bombs: 10,
   bombsLeft: 0,
