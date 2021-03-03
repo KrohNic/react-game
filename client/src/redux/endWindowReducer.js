@@ -1,9 +1,15 @@
-import { SHOW_END_WINDOW, HIDE_END_WINDOW, SET_RECORDS } from './types';
+import {
+  SHOW_END_WINDOW,
+  HIDE_END_WINDOW,
+  SET_RECORDS,
+  LOAD_PROMPT,
+} from './types';
 
 const initialState = {
   isGameEnded: false,
   isWin: false,
   records: [],
+  loadPrompt: false,
 };
 
 const endWindowReducer = (state = initialState, action) => {
@@ -14,6 +20,8 @@ const endWindowReducer = (state = initialState, action) => {
       return { ...state, isGameEnded: false };
     case SET_RECORDS:
       return { ...state, records: action.payload };
+    case LOAD_PROMPT:
+      return { ...state, loadPrompt: action.payload };
     default:
       return state;
   }

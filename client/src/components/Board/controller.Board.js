@@ -171,7 +171,7 @@ export const cellClickHandler = (
   x,
   y,
   cellsData,
-  started,
+  isGameStarted,
   bombs,
   lastY,
   lastX,
@@ -181,7 +181,7 @@ export const cellClickHandler = (
 
   let cellsDataCopy = [...cellsData];
 
-  if (!started) {
+  if (!isGameStarted) {
     cellsDataCopy = firstClickHandler(
       x,
       y,

@@ -16,7 +16,7 @@ import './Board.scss';
 const Board = () => {
   const dispatch = useDispatch();
   const cellsData = useSelector(state => state.board.cells);
-  const started = useSelector(state => state.board.started);
+  const isGameStarted = useSelector(state => state.board.isGameStarted);
   const bombs = useSelector(state => state.board.bombs);
   const rowLength = 10;
   const colLength = 8;
@@ -24,7 +24,7 @@ const Board = () => {
   const lastX = rowLength - 1;
 
   const cellClickCallback = (x, y) => cellClickHandler(
-    x, y, cellsData, started, bombs, lastY, lastX, dispatch
+    x, y, cellsData, isGameStarted, bombs, lastY, lastX, dispatch
   );
 
   const markCallback = (x, y) => markCell(x, y, cellsData, dispatch);
@@ -55,11 +55,11 @@ const Board = () => {
   )));
   
   useEffect(() => {
-    if (!started) {
+    if (!isGameStarted) {
       dispatch(newGame());
       dispatch(updateCells(createCells(bombs, lastY, lastX)))
     } 
-  }, [dispatch, started, bombs, lastY, lastX])
+  }, [dispatch, isGameStarted, bombs, lastY, lastX])
 
   console.log('render board');
 

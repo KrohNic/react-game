@@ -6,6 +6,7 @@ import {
   UPDATE_CELLS,
   SET_TIME,
   INCREASE_TIME,
+  RESTORE_GAME,
 } from './types';
 
 const initialState = {
@@ -14,7 +15,7 @@ const initialState = {
   cells: [],
   bombs: 10,
   bombsLeft: 0,
-  started: false,
+  isGameStarted: false,
   time: 0,
 };
 
@@ -23,9 +24,11 @@ const boardReducer = (state = initialState, action) => {
     case UPDATE_CELLS:
       return { ...state, cells: action.payload };
     case SET_STARTED:
-      return { ...state, started: action.payload };
+      return { ...state, isGameStarted: action.payload };
     case RESET_BOMBS_LEFT:
       return { ...state, bombsLeft: state.bombs };
+    case RESTORE_GAME:
+      return { ...state, ...action.payload, isGameStarted: true };
     case DECREASE_BOMBS_LEFT:
       return { ...state, bombsLeft: state.bombsLeft - 1 };
     case INCREASE_BOMBS_LEFT:

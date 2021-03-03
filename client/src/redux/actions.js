@@ -9,6 +9,8 @@ import {
   INCREASE_TIME,
   SET_TIME,
   SET_RECORDS,
+  RESTORE_GAME,
+  LOAD_PROMPT,
 } from './types';
 
 export const updateCells = (cells) => ({
@@ -55,6 +57,20 @@ export const setRecords = (records) => ({
   type: SET_RECORDS,
   payload: records,
 });
+
+export const showLoadPrompt = (isShow) => ({
+  type: LOAD_PROMPT,
+  payload: isShow,
+});
+
+export const restoreGame = (state) => (dispatch) => {
+  dispatch(hideEndWindow());
+  dispatch({
+    type: RESTORE_GAME,
+    payload: state,
+  });
+  dispatch(showLoadPrompt(false));
+};
 
 export const newGame = () => (dispatch) => {
   dispatch(hideEndWindow());

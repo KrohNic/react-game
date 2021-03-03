@@ -1,0 +1,11 @@
+.load_prompt {
+  &--title {
+    margin: 0 0 20px;
+  }
+
+  &--buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+  }
+}

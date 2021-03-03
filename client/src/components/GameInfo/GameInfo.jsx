@@ -6,7 +6,7 @@ import './GameInfo.scss';
 const GameInfo = () => {
   const bombsLeft = useSelector(state => state.board.bombsLeft);
   const time = useSelector(state => state.board.time);
-  const isGameStarted = useSelector(state => state.board.started);
+  const isGameStarted = useSelector(state => state.board.isGameStarted);
   const isGameEnded = useSelector(state => state.endWindow.isGameEnded);
   const dispatch = useDispatch();
   const [timeInterval, setTimeInterval] = useState(null);
