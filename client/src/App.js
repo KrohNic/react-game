@@ -1,30 +1,61 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import Board from './components/Board';
-import Modal from './components/Modal';
-import EndGameWindow from './components/EndGameWindow';
-import GameInfo from './components/GameInfo/GameInfo';
-import Storage from './components/Storage';
-import LoadSavePrompt from './components/LoadSavePrompt/LoadSavePrompt';
+import { Switch, BrowserRouter, Route, Redirect, Link } from 'react-router-dom';
+import { SettingsPage } from './pages/SettingsPage';
+import { GamePage } from './pages/GamePage';
 import 'materialize-css';
 
 function App() {
-  const isEndWindow = useSelector((state) => state.endWindow.isGameEnded);
-  const isLoadPrompt = useSelector((state) => state.endWindow.loadPrompt);
-  const EndGameModal = () => (
-    <Modal>
-      <EndGameWindow />
-    </Modal>
-  );
-
   return (
-    <>
-      {isEndWindow && <EndGameModal />}
-      {isLoadPrompt && <LoadSavePrompt />}
-      <Storage />
-      <GameInfo />
-      <Board />
-    </>
+    <BrowserRouter>
+      <header>
+        <nav className="blue accent-1">
+          <div className="nav-wrapper">
+            <Link to="/">
+              <h1>Minesweeper</h1>
+            </Link>
+            <ul className="right">
+              <li>
+                <Link to="/">Game</Link>
+              </li>
+              <li>
+                <Link to="/settings">Settings</Link>
+              </li>
+            </ul>
+          </div>
+        </nav>
+      </header>
+
+      <main className="main">
+        <Switch>
+          <Route path="/" exact>
+            <GamePage />
+          </Route>
+          <Route path="/settings" exact>
+            <SettingsPage />
+          </Route>
+          <Redirect to="/" />
+        </Switch>
+      </main>
+
+      <footer className="page-footer blue accent-1">
+        <div className="container">
+          <a
+            className="grey-text text-lighten-4"
+            href="https://github.com/KrohNic"
+          >
+            Kroh Nickolay
+          </a>
+          2021
+          <a className="grey-text text-lighten-4" href="https://rs.school/js/">
+            <img
+              src="https://rs.school/images/rs_school_js.svg"
+              alt="rs school logo"
+              className="rss_logo"
+            />
+          </a>
+        </div>
+      </footer>
+    </BrowserRouter>
   );
 }
 
