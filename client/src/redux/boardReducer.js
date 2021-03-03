@@ -1,4 +1,5 @@
 import { SMALL_HEIGHT, SMALL_WIDTH } from '../constants/boardSizes';
+import { EASY } from '../constants/difficulty';
 import {
   SET_STARTED,
   DECREASE_BOMBS_LEFT,
@@ -9,13 +10,15 @@ import {
   INCREASE_TIME,
   RESTORE_GAME,
   SET_BOARD_SIZE,
+  SET_BOMBS,
 } from './types';
 
 const initialState = {
   width: SMALL_WIDTH,
   height: SMALL_HEIGHT,
   cells: [],
-  bombs: 10,
+  bombPerCell: EASY,
+  bombs: Math.floor(SMALL_WIDTH * SMALL_HEIGHT * EASY),
   bombsLeft: 0,
   isGameStarted: false,
   time: 0,
@@ -24,11 +27,30 @@ const initialState = {
 const boardReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_BOARD_SIZE:
-      return { ...state, ...action.payload };
+      const newBombs = Math.floor(
+        action.payload.width * action.payload.height * state.bombPerCell
+      );
+
+      return {
+        ...state,
+        ...action.payload,
+        bombs: newBombs,
+        bombsLeft: newBombs,
+      };
     case UPDATE_CELLS:
       return { ...state, cells: action.payload };
     case SET_STARTED:
       return { ...state, isGameStarted: action.payload };
+    case SET_BOMBS:
+      const bombPerCell = action.payload;
+      const bombs = Math.floor(state.width * state.height * bombPerCell);
+
+      return {
+        ...state,
+        bombsLeft: bombs,
+        bombPerCell,
+        bombs,
+      };
     case RESET_BOMBS_LEFT:
       return { ...state, bombsLeft: state.bombs };
     case RESTORE_GAME:

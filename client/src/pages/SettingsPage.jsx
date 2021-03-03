@@ -7,24 +7,16 @@ import Slider from '@material-ui/core/Slider';
 import VolumeMute from '@material-ui/icons/VolumeMute';
 import VolumeUp from '@material-ui/icons/VolumeUp';
 import './SettingsPage.scss';
-import { setBoardSize } from '../redux/actions';
+import { setBoardSize, setDifficulty, setVolume } from '../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
 
 const CLASS_NAME = 'settings';
 
 export const SettingsPage = () => {
   const dispatch = useDispatch();
-  
-  
-  const [difficulty, setDifficulty] = React.useState(EASY);
-  
-  const difficultyHandler = (event) => {
-    setDifficulty(event.target.value);
-  };
-
-  
-
+  const difficulty = useSelector(state => state.board.bombPerCell)
   const width = useSelector(state => state.board.width)
+  const volume = useSelector(state => state.endWindow.volume)
   let size;
 
   switch (width) {
@@ -40,15 +32,16 @@ export const SettingsPage = () => {
       break;
   }
 
+  const difficultyHandler = (event) => {
+    dispatch(setDifficulty(event.target.value));
+  };
+
   const sizeHandler = (event) => {
     dispatch(setBoardSize(event.target.value));
   };
 
-
-  const [volume, setVolume] = React.useState(100);
-
   const volumeHandler = (_, newValue) => {
-    setVolume(newValue);
+    dispatch(setVolume(newValue));
   };
 
   const marks = [
@@ -71,9 +64,9 @@ export const SettingsPage = () => {
           value={difficulty}
           onChange={difficultyHandler}
         >
-          <MenuItem value={EASY}>{EASY}</MenuItem>
-          <MenuItem value={NORMAL}>{NORMAL}</MenuItem>
-          <MenuItem value={HARD}>{HARD}</MenuItem>
+          <MenuItem value={EASY}>EASY</MenuItem>
+          <MenuItem value={NORMAL}>NORMAL</MenuItem>
+          <MenuItem value={HARD}>HARD</MenuItem>
         </Select>
       </div>
       <div className={`${CLASS_NAME}--item`}>

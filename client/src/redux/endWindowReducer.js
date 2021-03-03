@@ -3,6 +3,7 @@ import {
   HIDE_END_WINDOW,
   SET_RECORDS,
   LOAD_PROMPT,
+  SET_VOLUME,
 } from './types';
 
 const initialState = {
@@ -10,6 +11,7 @@ const initialState = {
   isWin: false,
   records: [],
   loadPrompt: false,
+  volume: 100,
 };
 
 const endWindowReducer = (state = initialState, action) => {
@@ -22,6 +24,8 @@ const endWindowReducer = (state = initialState, action) => {
       return { ...state, records: action.payload };
     case LOAD_PROMPT:
       return { ...state, loadPrompt: action.payload };
+    case SET_VOLUME:
+      return { ...state, volume: action.payload };
     default:
       return state;
   }

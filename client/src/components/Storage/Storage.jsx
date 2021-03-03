@@ -1,16 +1,18 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { setRecords, showLoadPrompt } from "../../redux/actions";
+import { setRecords, setVolume, showLoadPrompt } from "../../redux/actions";
 import { useBeforeunload } from 'react-beforeunload';
 import { SAVE_LS_NAME } from "../../constants";
 
 const PREV_GAMES = 'PREV_GAMES';
+const VOLUME = 'VOLUME';
 
 const Storage = () => {
   const dispatch = useDispatch();
   const isGameEnded = useSelector(state => state.endWindow.isGameEnded);
   const isWin = useSelector(state => state.endWindow.isWin);
   const records = useSelector(state => state.endWindow.records);
+  const volume = useSelector(state => state.endWindow.volume);
   const isGameStarted = useSelector(state => state.board.isGameStarted);
   const time = useSelector(state => state.board.time);
   const width = useSelector(state => state.board.width);
@@ -18,6 +20,7 @@ const Storage = () => {
   const bombs = useSelector(state => state.board.bombs);
   const bombsLeft = useSelector(state => state.board.bombsLeft);
   const cells = useSelector(state => state.board.cells);
+  const bombPerCell = useSelector(state => state.board.bombPerCell);
 
   useEffect(() => {
     if (!isGameEnded) return;
@@ -58,6 +61,12 @@ const Storage = () => {
       dispatch(showLoadPrompt(true));
     }
 
+    const volume = localStorage.getItem(VOLUME);
+
+    if (volume) {
+      dispatch(setVolume(Number(volume)))
+    }
+
     return () => {
       console.log('destroying Storage')
     }
@@ -66,9 +75,10 @@ const Storage = () => {
   useBeforeunload(() => {
     if (isGameEnded || !isGameStarted) return;
 
-    const state = {width, height, cells, bombs, bombsLeft, time}
+    const state = {width, height, cells, bombPerCell, bombs, bombsLeft, time}
 
     localStorage.setItem(SAVE_LS_NAME, JSON.stringify(state))
+    localStorage.setItem(VOLUME, volume)
   });
 
   return null;

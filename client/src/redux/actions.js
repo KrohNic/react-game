@@ -22,6 +22,8 @@ import {
   RESTORE_GAME,
   LOAD_PROMPT,
   SET_BOARD_SIZE,
+  SET_BOMBS,
+  SET_VOLUME,
 } from './types';
 
 export const updateCells = (cells) => ({
@@ -73,6 +75,19 @@ export const showLoadPrompt = (isShow) => ({
   type: LOAD_PROMPT,
   payload: isShow,
 });
+
+export const setVolume = (volume) => ({
+  type: SET_VOLUME,
+  payload: volume,
+});
+
+export const setDifficulty = (bombPerCell) => (dispatch) => {
+  dispatch({
+    type: SET_BOMBS,
+    payload: bombPerCell,
+  });
+  dispatch(setGameStarted(false));
+};
 
 export const setBoardSize = (size) => (dispatch) => {
   let sizesObj;

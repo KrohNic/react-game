@@ -1,6 +1,7 @@
 export const SET_BOARD_SIZE = 'SET_BOARD_SIZE';
 export const UPDATE_CELLS = 'UPDATE_CELLS';
 export const RESTORE_GAME = 'RESTORE_GAME';
+export const SET_BOMBS = 'SET_BOMBS';
 export const RESET_BOMBS_LEFT = 'RESET_BOMBS_LEFT';
 export const DECREASE_BOMBS_LEFT = 'DECREASE_BOMBS_LEFT';
 export const INCREASE_BOMBS_LEFT = 'INCREASE_BOMBS_LEFT';
@@ -12,3 +13,4 @@ export const SHOW_END_WINDOW = 'SHOW_END_WINDOW';
 export const HIDE_END_WINDOW = 'HIDE_END_WINDOW';
 export const LOAD_PROMPT = 'LOAD_PROMPT';
 export const SET_RECORDS = 'SET_RECORDS';
+export const SET_VOLUME = 'SET_VOLUME';
