@@ -12,16 +12,32 @@ import {
   createCells
 } from './controller.Board';
 import './Board.scss';
+import { MEDIUM_WIDTH, SMALL_WIDTH } from '../../constants/boardSizes';
 
 const Board = () => {
   const dispatch = useDispatch();
   const cellsData = useSelector(state => state.board.cells);
   const isGameStarted = useSelector(state => state.board.isGameStarted);
   const bombs = useSelector(state => state.board.bombs);
-  const rowLength = 10;
-  const colLength = 8;
+  const rowLength = useSelector(state => state.board.width);
+  const colLength = useSelector(state => state.board.height);
   const lastY = colLength - 1;
   const lastX = rowLength - 1;
+
+  let boardSizeClass;
+
+  switch (rowLength) {
+    case SMALL_WIDTH:
+      boardSizeClass = "small_board";
+      break;
+    case MEDIUM_WIDTH:
+      boardSizeClass = "medium_board";
+      break;
+  
+    default:
+      boardSizeClass = "large_board";
+      break;
+  }
 
   const cellClickCallback = (x, y) => cellClickHandler(
     x, y, cellsData, isGameStarted, bombs, lastY, lastX, dispatch
@@ -65,7 +81,7 @@ const Board = () => {
 
   return (
     <div
-      className="board"
+      className={`board ${boardSizeClass}`}
       onMouseDown={mouseDownHandler}
       onMouseUp={mouseUpHandler}
       onContextMenu={e => e.preventDefault()}

@@ -1,3 +1,4 @@
+export const SET_BOARD_SIZE = 'SET_BOARD_SIZE';
 export const UPDATE_CELLS = 'UPDATE_CELLS';
 export const RESTORE_GAME = 'RESTORE_GAME';
 export const RESET_BOMBS_LEFT = 'RESET_BOMBS_LEFT';

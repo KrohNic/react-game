@@ -1,3 +1,4 @@
+import { SMALL_HEIGHT, SMALL_WIDTH } from '../constants/boardSizes';
 import {
   SET_STARTED,
   DECREASE_BOMBS_LEFT,
@@ -7,11 +8,12 @@ import {
   SET_TIME,
   INCREASE_TIME,
   RESTORE_GAME,
+  SET_BOARD_SIZE,
 } from './types';
 
 const initialState = {
-  width: 10,
-  height: 8,
+  width: SMALL_WIDTH,
+  height: SMALL_HEIGHT,
   cells: [],
   bombs: 10,
   bombsLeft: 0,
@@ -21,6 +23,8 @@ const initialState = {
 
 const boardReducer = (state = initialState, action) => {
   switch (action.type) {
+    case SET_BOARD_SIZE:
+      return { ...state, ...action.payload };
     case UPDATE_CELLS:
       return { ...state, cells: action.payload };
     case SET_STARTED:

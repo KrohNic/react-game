@@ -1,3 +1,9 @@
 export const SMALL = 'SMALL';
 export const MEDIUM = 'MEDIUM';
 export const LARGE = 'LARGE';
+export const SMALL_WIDTH = 8;
+export const MEDIUM_WIDTH = 14;
+export const LARGE_WIDTH = 20;
+export const SMALL_HEIGHT = 6;
+export const MEDIUM_HEIGHT = 10;
+export const LARGE_HEIGHT = 16;

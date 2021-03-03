@@ -2,24 +2,46 @@ import React from 'react';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import { EASY, NORMAL ,HARD } from '../constants/difficulty';
-import { MEDIUM, SMALL, LARGE } from '../constants/boardSizes';
+import { MEDIUM, SMALL, LARGE, MEDIUM_WIDTH, LARGE_WIDTH } from '../constants/boardSizes';
 import Slider from '@material-ui/core/Slider';
 import VolumeMute from '@material-ui/icons/VolumeMute';
 import VolumeUp from '@material-ui/icons/VolumeUp';
 import './SettingsPage.scss';
+import { setBoardSize } from '../redux/actions';
+import { useDispatch, useSelector } from 'react-redux';
 
 const CLASS_NAME = 'settings';
 
 export const SettingsPage = () => {
+  const dispatch = useDispatch();
+  
+  
   const [difficulty, setDifficulty] = React.useState(EASY);
-  const [size, setSize] = React.useState(SMALL);
-
+  
   const difficultyHandler = (event) => {
     setDifficulty(event.target.value);
   };
 
+  
+
+  const width = useSelector(state => state.board.width)
+  let size;
+
+  switch (width) {
+    case MEDIUM_WIDTH:
+      size = MEDIUM;
+      break;
+    case LARGE_WIDTH:
+      size = LARGE;
+      break;
+  
+    default:
+      size = SMALL;
+      break;
+  }
+
   const sizeHandler = (event) => {
-    setSize(event.target.value);
+    dispatch(setBoardSize(event.target.value));
   };
 
 

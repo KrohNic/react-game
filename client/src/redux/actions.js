@@ -1,4 +1,14 @@
 import {
+  LARGE,
+  LARGE_HEIGHT,
+  LARGE_WIDTH,
+  MEDIUM,
+  MEDIUM_HEIGHT,
+  MEDIUM_WIDTH,
+  SMALL_HEIGHT,
+  SMALL_WIDTH,
+} from '../constants/boardSizes';
+import {
   UPDATE_CELLS,
   HIDE_END_WINDOW,
   SHOW_END_WINDOW,
@@ -11,6 +21,7 @@ import {
   SET_RECORDS,
   RESTORE_GAME,
   LOAD_PROMPT,
+  SET_BOARD_SIZE,
 } from './types';
 
 export const updateCells = (cells) => ({
@@ -62,6 +73,29 @@ export const showLoadPrompt = (isShow) => ({
   type: LOAD_PROMPT,
   payload: isShow,
 });
+
+export const setBoardSize = (size) => (dispatch) => {
+  let sizesObj;
+
+  switch (size) {
+    case MEDIUM:
+      sizesObj = { width: MEDIUM_WIDTH, height: MEDIUM_HEIGHT };
+      break;
+    case LARGE:
+      sizesObj = { width: LARGE_WIDTH, height: LARGE_HEIGHT };
+      break;
+
+    default:
+      sizesObj = { width: SMALL_WIDTH, height: SMALL_HEIGHT };
+      break;
+  }
+
+  dispatch({
+    type: SET_BOARD_SIZE,
+    payload: sizesObj,
+  });
+  dispatch(setGameStarted(false));
+};
 
 export const restoreGame = (state) => (dispatch) => {
   dispatch(hideEndWindow());
