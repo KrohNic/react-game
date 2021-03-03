@@ -1,22 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import { EASY, NORMAL ,HARD } from '../constants/difficulty';
-import { MEDIUM, SMALL, LARGE, MEDIUM_WIDTH, LARGE_WIDTH } from '../constants/boardSizes';
 import Slider from '@material-ui/core/Slider';
 import VolumeMute from '@material-ui/icons/VolumeMute';
 import VolumeUp from '@material-ui/icons/VolumeUp';
-import './SettingsPage.scss';
-import { setBoardSize, setDifficulty, setVolume } from '../redux/actions';
 import { useDispatch, useSelector } from 'react-redux';
+import { EASY, NORMAL ,HARD } from '../constants/difficulty';
+import { MEDIUM, SMALL, LARGE, MEDIUM_WIDTH, LARGE_WIDTH } from '../constants/boardSizes';
+import { setBoardSize, setDifficulty, setVolume } from '../redux/actions';
+import './SettingsPage.scss';
 
 const CLASS_NAME = 'settings';
 
 export const SettingsPage = () => {
   const dispatch = useDispatch();
+  const [isFullScreen, setFullScreen] = useState(false);
   const difficulty = useSelector(state => state.board.bombPerCell)
   const width = useSelector(state => state.board.width)
   const volume = useSelector(state => state.endWindow.volume)
+  const volumeMarks = [
+    { value: 0, label: 'MUTE' },
+    { value: 100, label: 'MAX' },
+  ];
+
   let size;
 
   switch (width) {
@@ -44,16 +50,40 @@ export const SettingsPage = () => {
     dispatch(setVolume(newValue));
   };
 
-  const marks = [
-    {
-      value: 0,
-      label: 'MUTE',
-    },
-    {
-      value: 100,
-      label: 'MAX',
-    },
-  ];
+  const fullscreenSwitchHandler = () => {
+    if (!isFullScreen) {
+      if(document.documentElement.requestFullScreen) {
+        document.documentElement.requestFullScreen();
+      } else if(document.documentElement.mozRequestFullScreen) {
+        document.documentElement.mozRequestFullScreen();
+      } else if(document.documentElement.webkitRequestFullScreen) {
+        document.documentElement.webkitRequestFullScreen();
+      }
+    } else {
+      if(document.cancelFullScreen) {
+        document.cancelFullScreen();
+      } else if(document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+      } else if(document.webkitCancelFullScreen) {
+        document.webkitCancelFullScreen();
+      }
+    }
+  }
+
+  const fullscreenchangeHandler = () => {
+    setFullScreen(!!document.fullscreenElement);
+  }
+
+  useEffect(() => {
+    document.addEventListener('webkitfullscreenchange', fullscreenchangeHandler);
+    document.addEventListener('mozfullscreenchange', fullscreenchangeHandler);
+    document.addEventListener('fullscreenchange', fullscreenchangeHandler);
+    return () => {
+      document.removeEventListener('webkitfullscreenchange', fullscreenchangeHandler)
+      document.removeEventListener('mozfullscreenchange', fullscreenchangeHandler)
+      document.removeEventListener('fullscreenchange', fullscreenchangeHandler)
+    }
+  }, [])
 
   return (
     <div className={`${CLASS_NAME}`}>
@@ -90,10 +120,25 @@ export const SettingsPage = () => {
             onChange={volumeHandler} 
             aria-labelledby="discrete-slider-custom"
             valueLabelDisplay="auto"
-            marks={marks}
+            marks={volumeMarks}
           />
           <VolumeUp />
         </div>
+      </div>
+      <div className={`${CLASS_NAME}--item`}>
+        <span className="right">Full screen:</span>
+          <div className="switch" onClick={fullscreenSwitchHandler}>
+            <label>
+              Off
+              <input
+                type="checkbox"
+                checked={isFullScreen}
+                onChange={fullscreenSwitchHandler}
+              />
+              <span className="lever"></span>
+              On
+            </label>
+          </div>
       </div>
     </div>
   )
