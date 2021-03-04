@@ -1,4 +1,4 @@
-import { REVEAL, BOMB, FLAG, BTN } from '../../constants/cell_types';
+import { REVEAL, BOMB, FLAG, BTN } from '../../constants/cellTypes';
 import {
   updateCells,
   showEndWindow,

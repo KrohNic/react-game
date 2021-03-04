@@ -1,6 +1,6 @@
 import React from 'react';
 import FlagIcon from '@material-ui/icons/Flag';
-import {BTN, FLAG, REVEAL} from '../../constants/cell_types';
+import {BTN, FLAG, REVEAL} from '../../constants/cellTypes';
 import './cell.scss';
 
 const CellBtn = ({value}) => (
