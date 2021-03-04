@@ -77,8 +77,6 @@ const Board = () => {
     } 
   }, [dispatch, isGameStarted, bombs, lastY, lastX])
 
-  console.log('render board');
-
   return (
     <div
       className={`board ${boardSizeClass}`}

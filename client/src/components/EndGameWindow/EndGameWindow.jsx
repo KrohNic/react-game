@@ -21,8 +21,6 @@ const EndGameWindow = () => {
     let recordIco = <CloseIcon />;
     let difficultyDescription;
 
-    console.log(difficulty, 1)
-
     switch (Number(difficulty)) {
       case NORMAL:
         difficultyDescription = 'normal';

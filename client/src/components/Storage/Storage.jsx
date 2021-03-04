@@ -25,8 +25,6 @@ const Storage = () => {
   useEffect(() => {
     if (!isGameEnded) return;
 
-    console.log('record start', records)
-
     const newRecord = {
       time, 
       isWin,
@@ -65,10 +63,6 @@ const Storage = () => {
 
     if (volume) {
       dispatch(setVolume(Number(volume)))
-    }
-
-    return () => {
-      console.log('destroying Storage')
     }
   }, [dispatch])
 
