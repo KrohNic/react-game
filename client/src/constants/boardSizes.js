@@ -1,9 +1,18 @@
-export const SMALL = 'SMALL';
-export const MEDIUM = 'MEDIUM';
-export const LARGE = 'LARGE';
-export const SMALL_WIDTH = 8;
-export const MEDIUM_WIDTH = 14;
-export const LARGE_WIDTH = 20;
-export const SMALL_HEIGHT = 6;
-export const MEDIUM_HEIGHT = 10;
-export const LARGE_HEIGHT = 16;
+export const SMALL = {
+  width: 8,
+  height: 6,
+  className: 'small_board',
+  label: 'SMALL',
+};
+export const MEDIUM = {
+  width: 14,
+  height: 10,
+  className: 'medium_board',
+  label: 'MEDIUM',
+};
+export const LARGE = {
+  width: 20,
+  height: 16,
+  className: 'large_board',
+  label: 'LARGE',
+};

@@ -1,14 +1,4 @@
 import {
-  LARGE,
-  LARGE_HEIGHT,
-  LARGE_WIDTH,
-  MEDIUM,
-  MEDIUM_HEIGHT,
-  MEDIUM_WIDTH,
-  SMALL_HEIGHT,
-  SMALL_WIDTH,
-} from '../constants/boardSizes';
-import {
   UPDATE_CELLS,
   HIDE_END_WINDOW,
   SHOW_END_WINDOW,
@@ -89,25 +79,10 @@ export const setDifficulty = (bombPerCell) => (dispatch) => {
   dispatch(setGameStarted(false));
 };
 
-export const setBoardSize = (size) => (dispatch) => {
-  let sizesObj;
-
-  switch (size) {
-    case MEDIUM:
-      sizesObj = { width: MEDIUM_WIDTH, height: MEDIUM_HEIGHT };
-      break;
-    case LARGE:
-      sizesObj = { width: LARGE_WIDTH, height: LARGE_HEIGHT };
-      break;
-
-    default:
-      sizesObj = { width: SMALL_WIDTH, height: SMALL_HEIGHT };
-      break;
-  }
-
+export const setBoardSize = (sizes) => (dispatch) => {
   dispatch({
     type: SET_BOARD_SIZE,
-    payload: sizesObj,
+    payload: sizes,
   });
   dispatch(setGameStarted(false));
 };

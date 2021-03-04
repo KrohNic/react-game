@@ -12,48 +12,34 @@ import {
   rightClickHandler,
   createCells
 } from './controller.Board';
-import { MEDIUM_WIDTH, SMALL_WIDTH } from '../../constants/boardSizes';
 import correctSound from '../../assets/sound/correct.mp3'
 import errorSound from '../../assets/sound/error.mp3'
 import './Board.scss';
 
 const Board = () => {
   const dispatch = useDispatch();
-  const cellsData = useSelector(state => state.game.cells);
-  const isGameStarted = useSelector(state => state.game.isGameStarted);
-  const bombs = useSelector(state => state.game.bombs);
-  const rowLength = useSelector(state => state.game.width);
-  const colLength = useSelector(state => state.game.height);
+  const {
+    isGameStarted,
+    bombs,
+    boardSizes,
+    cells
+  } = useSelector(state => state.game);
   const volume = useSelector(state => state.app.volume);
   const [playCorrect] = useSound(correctSound, {volume});
   const [playError] = useSound(errorSound, {volume});
-  const lastY = colLength - 1;
-  const lastX = rowLength - 1;
-
-  let boardSizeClass;
-
-  switch (rowLength) {
-    case SMALL_WIDTH:
-      boardSizeClass = "small_board";
-      break;
-    case MEDIUM_WIDTH:
-      boardSizeClass = "medium_board";
-      break;
-  
-    default:
-      boardSizeClass = "large_board";
-      break;
-  }
+  const {width, height, className: boardSizeClass} = boardSizes;
+  const lastY = height - 1;
+  const lastX = width - 1;
 
   const cellClickCallback = (x, y) => cellClickHandler(
-    x, y, cellsData, isGameStarted, bombs, lastY, lastX, playCorrect, dispatch
+    x, y, cells, isGameStarted, bombs, lastY, lastX, playCorrect, dispatch
   );
 
-  const markCallback = (x, y) => markCell(x, y, cellsData, dispatch);
+  const markCallback = (x, y) => markCell(x, y, cells, dispatch);
 
   const revealAroundCallback = (x, y) => {
     revealAroundCell(
-      x, y, cellsData, lastX, lastY, playCorrect, playError, dispatch
+      x, y, cells, lastX, lastY, playCorrect, playError, dispatch
     );
   }
 
@@ -69,9 +55,9 @@ const Board = () => {
       bothClickHandler(event, revealAroundCallback);
   }
 
-  const cells = cellsData.map((row, y) => row.map((cell, x) => (
+  const cellsElements = cells.map((row, y) => row.map((cell, x) => (
     <Cell
-      key={rowLength * y + x}
+      key={width * y + x}
       type={cell.type}
       value={cell.value}
       coord={{x, y}}
@@ -92,7 +78,7 @@ const Board = () => {
       onMouseUp={mouseUpHandler}
       onContextMenu={e => e.preventDefault()}
     >
-      {cells}
+      {cellsElements}
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { SMALL_HEIGHT, SMALL_WIDTH } from '../constants/boardSizes';
+import { SMALL } from '../constants/boardSizes';
 import { EASY } from '../constants/difficulty';
 import {
   SET_STARTED,
@@ -14,11 +14,10 @@ import {
 } from './types';
 
 const initialState = {
-  width: SMALL_WIDTH,
-  height: SMALL_HEIGHT,
+  boardSizes: SMALL,
   cells: [],
   bombPerCell: EASY,
-  bombs: Math.floor(SMALL_WIDTH * SMALL_HEIGHT * EASY),
+  bombs: Math.floor(SMALL.width * SMALL.height * EASY),
   bombsLeft: 0,
   isGameStarted: false,
   time: 0,
@@ -33,7 +32,7 @@ const boardReducer = (state = initialState, action) => {
 
       return {
         ...state,
-        ...action.payload,
+        boardSizes: action.payload,
         bombs: newBombs,
         bombsLeft: newBombs,
       };
@@ -43,7 +42,9 @@ const boardReducer = (state = initialState, action) => {
       return { ...state, isGameStarted: action.payload };
     case SET_BOMBS:
       const bombPerCell = action.payload;
-      const bombs = Math.floor(state.width * state.height * bombPerCell);
+      const bombs = Math.floor(
+        state.boardSizes.width * state.boardSizes.height * bombPerCell
+      );
 
       return {
         ...state,

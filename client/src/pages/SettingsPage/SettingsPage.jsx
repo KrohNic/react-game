@@ -6,7 +6,9 @@ import VolumeMute from '@material-ui/icons/VolumeMute';
 import VolumeUp from '@material-ui/icons/VolumeUp';
 import { useDispatch, useSelector } from 'react-redux';
 import { EASY, NORMAL ,HARD } from '../../constants/difficulty';
-import { MEDIUM, SMALL, LARGE, MEDIUM_WIDTH, LARGE_WIDTH } from '../../constants/boardSizes';
+import { 
+  MEDIUM, SMALL, LARGE 
+} from '../../constants/boardSizes';
 import { setBoardSize, setDifficulty, setVolume } from '../../redux/actions';
 import './SettingsPage.scss';
 
@@ -16,27 +18,12 @@ const SettingsPage = () => {
   const dispatch = useDispatch();
   const [isFullScreen, setFullScreen] = useState(false);
   const difficulty = useSelector(state => state.game.bombPerCell)
-  const width = useSelector(state => state.game.width)
+  const boardSizes = useSelector(state => state.game.boardSizes)
   const volume = useSelector(state => state.app.volume)
   const volumeMarks = [
     { value: 0, label: 'MUTE' },
     { value: 100, label: 'MAX' },
   ];
-
-  let size;
-
-  switch (width) {
-    case MEDIUM_WIDTH:
-      size = MEDIUM;
-      break;
-    case LARGE_WIDTH:
-      size = LARGE;
-      break;
-  
-    default:
-      size = SMALL;
-      break;
-  }
 
   const difficultyHandler = (event) => {
     dispatch(setDifficulty(event.target.value));
@@ -79,7 +66,9 @@ const SettingsPage = () => {
     document.addEventListener('mozfullscreenchange', fullscreenchangeHandler);
     document.addEventListener('fullscreenchange', fullscreenchangeHandler);
     return () => {
-      document.removeEventListener('webkitfullscreenchange', fullscreenchangeHandler)
+      document.removeEventListener(
+        'webkitfullscreenchange', fullscreenchangeHandler
+      )
       document.removeEventListener('mozfullscreenchange', fullscreenchangeHandler)
       document.removeEventListener('fullscreenchange', fullscreenchangeHandler)
     }
@@ -103,12 +92,12 @@ const SettingsPage = () => {
         <span className="right">Size:</span>
         <Select
           id="demo-simple-select"
-          value={size}
+          value={boardSizes}
           onChange={sizeHandler}
         >
-          <MenuItem value={SMALL}>{SMALL}</MenuItem>
-          <MenuItem value={MEDIUM}>{MEDIUM}</MenuItem>
-          <MenuItem value={LARGE}>{LARGE}</MenuItem>
+          <MenuItem value={SMALL}>{SMALL.label}</MenuItem>
+          <MenuItem value={MEDIUM}>{MEDIUM.label}</MenuItem>
+          <MenuItem value={LARGE}>{LARGE.label}</MenuItem>
         </Select>
       </div>
       <div className={`${CLASS_NAME}--item`}>
@@ -120,9 +109,6 @@ const SettingsPage = () => {
             onChange={volumeHandler} 
             aria-labelledby="discrete-slider-custom"
             valueLabelDisplay="auto"
-            // min={0}
-            // max={1}
-            // step={0.01}
             marks={volumeMarks}
           />
           <VolumeUp />
