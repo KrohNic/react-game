@@ -7,8 +7,8 @@ import LoadSavePrompt from '../components/LoadSavePrompt/LoadSavePrompt';
 import Modal from '../components/Modal';
 
 export const GamePage = () => {
-  const isEndWindow = useSelector((state) => state.endWindow.isGameEnded);
-  const isLoadPrompt = useSelector((state) => state.endWindow.loadPrompt);
+  const isEndWindow = useSelector((state) => state.app.isGameEnded);
+  const isLoadPrompt = useSelector((state) => state.app.loadPrompt);
   const EndGameModal = () => (
     <Modal>
       <EndGameWindow />

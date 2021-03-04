@@ -8,18 +8,18 @@ const PREV_GAMES = 'PREV_GAMES';
 
 const Storage = () => {
   const dispatch = useDispatch();
-  const isGameEnded = useSelector(state => state.endWindow.isGameEnded);
-  const isWin = useSelector(state => state.endWindow.isWin);
-  const records = useSelector(state => state.endWindow.records);
-  const volume = useSelector(state => state.endWindow.volume);
-  const isGameStarted = useSelector(state => state.board.isGameStarted);
-  const time = useSelector(state => state.board.time);
-  const width = useSelector(state => state.board.width);
-  const height = useSelector(state => state.board.height);
-  const bombs = useSelector(state => state.board.bombs);
-  const bombsLeft = useSelector(state => state.board.bombsLeft);
-  const cells = useSelector(state => state.board.cells);
-  const bombPerCell = useSelector(state => state.board.bombPerCell);
+  const isGameEnded = useSelector(state => state.app.isGameEnded);
+  const isWin = useSelector(state => state.app.isWin);
+  const records = useSelector(state => state.app.records);
+  const volume = useSelector(state => state.app.volume);
+  const isGameStarted = useSelector(state => state.game.isGameStarted);
+  const time = useSelector(state => state.game.time);
+  const width = useSelector(state => state.game.width);
+  const height = useSelector(state => state.game.height);
+  const bombs = useSelector(state => state.game.bombs);
+  const bombsLeft = useSelector(state => state.game.bombsLeft);
+  const cells = useSelector(state => state.game.cells);
+  const bombPerCell = useSelector(state => state.game.bombPerCell);
 
   useEffect(() => {
     if (!isGameEnded) return;

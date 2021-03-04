@@ -19,12 +19,12 @@ import './Board.scss';
 
 const Board = () => {
   const dispatch = useDispatch();
-  const cellsData = useSelector(state => state.board.cells);
-  const isGameStarted = useSelector(state => state.board.isGameStarted);
-  const bombs = useSelector(state => state.board.bombs);
-  const rowLength = useSelector(state => state.board.width);
-  const colLength = useSelector(state => state.board.height);
-  const volume = useSelector(state => state.endWindow.volume);
+  const cellsData = useSelector(state => state.game.cells);
+  const isGameStarted = useSelector(state => state.game.isGameStarted);
+  const bombs = useSelector(state => state.game.bombs);
+  const rowLength = useSelector(state => state.game.width);
+  const colLength = useSelector(state => state.game.height);
+  const volume = useSelector(state => state.app.volume);
   const [playCorrect] = useSound(correctSound, {volume});
   const [playError] = useSound(errorSound, {volume});
   const lastY = colLength - 1;

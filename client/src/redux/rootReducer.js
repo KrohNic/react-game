@@ -1,8 +1,8 @@
-import { combineReducers } from "redux";
-import boardReducer from "./boardReducer";
-import endWindowReducer from "./endWindowReducer";
+import { combineReducers } from 'redux';
+import gameReducer from './gameReducer';
+import appReducer from './appReducer';
 
-export const  rootReducer = combineReducers({
-  board: boardReducer, 
-  endWindow: endWindowReducer
-})
+export const rootReducer = combineReducers({
+  game: gameReducer,
+  app: appReducer,
+});

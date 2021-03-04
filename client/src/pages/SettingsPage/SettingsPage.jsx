@@ -15,9 +15,9 @@ const CLASS_NAME = 'settings';
 const SettingsPage = () => {
   const dispatch = useDispatch();
   const [isFullScreen, setFullScreen] = useState(false);
-  const difficulty = useSelector(state => state.board.bombPerCell)
-  const width = useSelector(state => state.board.width)
-  const volume = useSelector(state => state.endWindow.volume)
+  const difficulty = useSelector(state => state.game.bombPerCell)
+  const width = useSelector(state => state.game.width)
+  const volume = useSelector(state => state.app.volume)
   const volumeMarks = [
     { value: 0, label: 'MUTE' },
     { value: 100, label: 'MAX' },

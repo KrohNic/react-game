@@ -4,10 +4,10 @@ import { increaseTime } from '../../redux/actions';
 import './GameInfo.scss';
 
 const GameInfo = () => {
-  const bombsLeft = useSelector(state => state.board.bombsLeft);
-  const time = useSelector(state => state.board.time);
-  const isGameStarted = useSelector(state => state.board.isGameStarted);
-  const isGameEnded = useSelector(state => state.endWindow.isGameEnded);
+  const bombsLeft = useSelector(state => state.game.bombsLeft);
+  const time = useSelector(state => state.game.time);
+  const isGameStarted = useSelector(state => state.game.isGameStarted);
+  const isGameEnded = useSelector(state => state.app.isGameEnded);
   const dispatch = useDispatch();
   const [timeInterval, setTimeInterval] = useState(null);
 

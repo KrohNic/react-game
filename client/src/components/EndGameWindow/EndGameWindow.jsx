@@ -13,10 +13,10 @@ const CLASS_NAME = "game_end";
 
 const EndGameWindow = () => {
   const dispatch = useDispatch();
-  const isWin = useSelector(state => state.endWindow.isWin);
-  const time = useSelector(state => state.board.time);
-  const records = useSelector(state => state.endWindow.records);
-  const volume = useSelector(state => state.endWindow.volume);
+  const isWin = useSelector(state => state.app.isWin);
+  const time = useSelector(state => state.game.time);
+  const records = useSelector(state => state.app.records);
+  const volume = useSelector(state => state.app.volume);
   const [playSuccess, { stop : stopPlaySuccess }] = useSound(successSound, {volume});
   const [playFailure,{ stop : stopPlayFailure }] = useSound(failureSound, {volume});
   const clickHandler = () => dispatch(newGame())
