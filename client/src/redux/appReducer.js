@@ -11,7 +11,7 @@ const initialState = {
   isGameEnded: false,
   isWin: false,
   records: [],
-  loadPrompt: false,
+  isLoadPrompt: false,
   volume: localStorage.getItem(VOLUME_LS_NAME) || 1,
 };
 
@@ -24,7 +24,7 @@ const endWindowReducer = (state = initialState, action) => {
     case SET_RECORDS:
       return { ...state, records: action.payload };
     case LOAD_PROMPT:
-      return { ...state, loadPrompt: action.payload };
+      return { ...state, isLoadPrompt: action.payload };
     case SET_VOLUME:
       return { ...state, volume: action.payload };
     default:

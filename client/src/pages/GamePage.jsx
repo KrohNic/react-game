@@ -8,7 +8,7 @@ import Modal from '../components/Modal';
 
 export const GamePage = () => {
   const isEndWindow = useSelector((state) => state.app.isGameEnded);
-  const isLoadPrompt = useSelector((state) => state.app.loadPrompt);
+  const isLoadPrompt = useSelector((state) => state.app.isLoadPrompt);
   const EndGameModal = () => (
     <Modal>
       <EndGameWindow />
