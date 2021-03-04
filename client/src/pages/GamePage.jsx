@@ -5,7 +5,6 @@ import EndGameWindow from '../components/EndGameWindow';
 import GameInfo from '../components/GameInfo/GameInfo';
 import LoadSavePrompt from '../components/LoadSavePrompt/LoadSavePrompt';
 import Modal from '../components/Modal';
-import Storage from '../components/Storage';
 
 export const GamePage = () => {
   const isEndWindow = useSelector((state) => state.endWindow.isGameEnded);
@@ -20,7 +19,6 @@ export const GamePage = () => {
     <>
       {isEndWindow && <EndGameModal />}
       {isLoadPrompt && <LoadSavePrompt />}
-      <Storage />
       <GameInfo />
       <Board />
     </>

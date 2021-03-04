@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import useSound from 'use-sound';
 import { newGame } from '../../redux/actions';
 import CloseIcon from '@material-ui/icons/Close';
 import CheckIcon from '@material-ui/icons/Check';
 import {HARD, NORMAL} from '../../constants/difficulty';
+import successSound from '../../assets/sound/success.mp3';
+import failureSound from '../../assets/sound/failure.mp3';
 import './EndGameWindow.scss';
 
 const CLASS_NAME = "game_end";
@@ -13,7 +16,22 @@ const EndGameWindow = () => {
   const isWin = useSelector(state => state.endWindow.isWin);
   const time = useSelector(state => state.board.time);
   const records = useSelector(state => state.endWindow.records);
+  const volume = useSelector(state => state.endWindow.volume);
+  const [playSuccess, { stop : stopPlaySuccess }] = useSound(successSound, {volume});
+  const [playFailure,{ stop : stopPlayFailure }] = useSound(failureSound, {volume});
   const clickHandler = () => dispatch(newGame())
+
+  useEffect(() => {
+    if (isWin)
+      playSuccess();
+    else
+      playFailure();
+
+    return () => {
+      stopPlaySuccess();
+      stopPlayFailure();
+    }
+  }, [isWin, playSuccess, playFailure, stopPlaySuccess, stopPlayFailure])
 
   const recordsElemList = records.map(({isWin, time, size, difficulty, date}) => {
     let className = `${CLASS_NAME}--li-lose`;

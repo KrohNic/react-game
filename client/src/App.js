@@ -1,7 +1,8 @@
 import React from 'react';
 import { Switch, BrowserRouter, Route, Redirect, Link } from 'react-router-dom';
-import { SettingsPage } from './pages/SettingsPage';
+import SettingsPage from './pages/SettingsPage';
 import { GamePage } from './pages/GamePage';
+import Storage from './components/Storage';
 import 'materialize-css';
 
 function App() {
@@ -55,6 +56,7 @@ function App() {
           </a>
         </div>
       </footer>
+      <Storage />
     </BrowserRouter>
   );
 }

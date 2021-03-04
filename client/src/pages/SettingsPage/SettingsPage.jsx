@@ -5,14 +5,14 @@ import Slider from '@material-ui/core/Slider';
 import VolumeMute from '@material-ui/icons/VolumeMute';
 import VolumeUp from '@material-ui/icons/VolumeUp';
 import { useDispatch, useSelector } from 'react-redux';
-import { EASY, NORMAL ,HARD } from '../constants/difficulty';
-import { MEDIUM, SMALL, LARGE, MEDIUM_WIDTH, LARGE_WIDTH } from '../constants/boardSizes';
-import { setBoardSize, setDifficulty, setVolume } from '../redux/actions';
+import { EASY, NORMAL ,HARD } from '../../constants/difficulty';
+import { MEDIUM, SMALL, LARGE, MEDIUM_WIDTH, LARGE_WIDTH } from '../../constants/boardSizes';
+import { setBoardSize, setDifficulty, setVolume } from '../../redux/actions';
 import './SettingsPage.scss';
 
 const CLASS_NAME = 'settings';
 
-export const SettingsPage = () => {
+const SettingsPage = () => {
   const dispatch = useDispatch();
   const [isFullScreen, setFullScreen] = useState(false);
   const difficulty = useSelector(state => state.board.bombPerCell)
@@ -47,9 +47,9 @@ export const SettingsPage = () => {
   };
 
   const volumeHandler = (_, newValue) => {
-    dispatch(setVolume(newValue));
+    dispatch(setVolume(newValue / 100));
   };
-
+  
   const fullscreenSwitchHandler = () => {
     if (!isFullScreen) {
       if(document.documentElement.requestFullScreen) {
@@ -116,10 +116,13 @@ export const SettingsPage = () => {
         <div className={`${CLASS_NAME}--volume`}>
           <VolumeMute />
           <Slider 
-            value={volume} 
+            value={volume * 100} 
             onChange={volumeHandler} 
             aria-labelledby="discrete-slider-custom"
             valueLabelDisplay="auto"
+            // min={0}
+            // max={1}
+            // step={0.01}
             marks={volumeMarks}
           />
           <VolumeUp />
@@ -143,3 +146,5 @@ export const SettingsPage = () => {
     </div>
   )
 }
+
+export default SettingsPage;

@@ -17,6 +17,7 @@ const LoadSavePrompt = () => {
 
     const state = JSON.parse(save);
 
+    localStorage.removeItem(SAVE_LS_NAME);
     dispatch(restoreGame(state))
   }
 

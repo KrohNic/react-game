@@ -95,7 +95,8 @@ const checkGameWin = (cells, dispatch) => {
   if (isGameEnded) dispatch(showEndWindow(true));
 };
 
-const revealCell = (x, y, cells, lastX, lastY, dispatch) => {
+const revealCell = (x, y, cells, lastX, lastY, playCorrect, dispatch) => {
+  playCorrect();
   cells[y][x].type = REVEAL;
 
   switch (cells[y][x].value) {
@@ -113,7 +114,16 @@ const revealCell = (x, y, cells, lastX, lastY, dispatch) => {
   checkGameWin(cells, dispatch);
 };
 
-export const revealAroundCell = (x, y, cells, lastX, lastY, dispatch) => {
+export const revealAroundCell = (
+  x,
+  y,
+  cells,
+  lastX,
+  lastY,
+  playCorrect,
+  playError,
+  dispatch
+) => {
   if (cells[y][x].type !== REVEAL) return;
 
   const cellsCopy = [...cells];
@@ -126,11 +136,19 @@ export const revealAroundCell = (x, y, cells, lastX, lastY, dispatch) => {
     return marks;
   }, 0);
 
-  if (bombsMarked !== bombsAround) return;
+  if (bombsMarked !== bombsAround) return playError();
 
   surroundingCells.forEach((coord) => {
     if (cellsCopy[coord.y][coord.x].type === BTN)
-      revealCell(coord.x, coord.y, cellsCopy, lastX, lastY, dispatch);
+      revealCell(
+        coord.x,
+        coord.y,
+        cellsCopy,
+        lastX,
+        lastY,
+        playCorrect,
+        dispatch
+      );
   });
 
   dispatch(updateCells(cellsCopy));
@@ -175,6 +193,7 @@ export const cellClickHandler = (
   bombs,
   lastY,
   lastX,
+  playCorrect,
   dispatch
 ) => {
   if (cellsData[y][x].type !== BTN) return;
@@ -193,7 +212,7 @@ export const cellClickHandler = (
     );
   }
 
-  revealCell(x, y, cellsDataCopy, lastX, lastY, dispatch);
+  revealCell(x, y, cellsDataCopy, lastX, lastY, playCorrect, dispatch);
   dispatch(updateCells(cellsDataCopy));
 };
 

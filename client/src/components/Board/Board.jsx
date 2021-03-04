@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
+import useSound from 'use-sound';
 import Cell from '../Cell'
 import {updateCells, newGame} from '../../redux/actions';
 import {
@@ -11,8 +12,10 @@ import {
   rightClickHandler,
   createCells
 } from './controller.Board';
-import './Board.scss';
 import { MEDIUM_WIDTH, SMALL_WIDTH } from '../../constants/boardSizes';
+import correctSound from '../../assets/sound/correct.mp3'
+import errorSound from '../../assets/sound/error.mp3'
+import './Board.scss';
 
 const Board = () => {
   const dispatch = useDispatch();
@@ -21,6 +24,9 @@ const Board = () => {
   const bombs = useSelector(state => state.board.bombs);
   const rowLength = useSelector(state => state.board.width);
   const colLength = useSelector(state => state.board.height);
+  const volume = useSelector(state => state.endWindow.volume);
+  const [playCorrect] = useSound(correctSound, {volume});
+  const [playError] = useSound(errorSound, {volume});
   const lastY = colLength - 1;
   const lastX = rowLength - 1;
 
@@ -40,13 +46,15 @@ const Board = () => {
   }
 
   const cellClickCallback = (x, y) => cellClickHandler(
-    x, y, cellsData, isGameStarted, bombs, lastY, lastX, dispatch
+    x, y, cellsData, isGameStarted, bombs, lastY, lastX, playCorrect, dispatch
   );
 
   const markCallback = (x, y) => markCell(x, y, cellsData, dispatch);
 
   const revealAroundCallback = (x, y) => {
-    revealAroundCell(x, y, cellsData, lastX, lastY, dispatch);
+    revealAroundCell(
+      x, y, cellsData, lastX, lastY, playCorrect, playError, dispatch
+    );
   }
 
   const mouseUpHandler = (event) => {
