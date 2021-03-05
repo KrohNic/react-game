@@ -1,5 +1,6 @@
 import { SMALL } from '../constants/boardSizes';
 import { EASY } from '../constants/difficulty';
+import { getBombs } from '../utils';
 import {
   SET_STARTED,
   DECREASE_BOMBS_LEFT,
@@ -10,14 +11,14 @@ import {
   INCREASE_TIME,
   RESTORE_GAME,
   SET_BOARD_SIZE,
-  SET_BOMBS,
+  SET_BOMBS_PER_CELL,
 } from './types';
 
 const initialState = {
   boardSizes: SMALL,
   cells: [],
   bombPerCell: EASY,
-  bombs: Math.floor(SMALL.width * SMALL.height * EASY),
+  bombs: getBombs(SMALL, EASY),
   bombsLeft: 0,
   isGameStarted: false,
   time: 0,
@@ -26,31 +27,22 @@ const initialState = {
 const boardReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_BOARD_SIZE:
-      const newBombs = Math.floor(
-        action.payload.width * action.payload.height * state.bombPerCell
-      );
-
       return {
         ...state,
-        boardSizes: action.payload,
-        bombs: newBombs,
-        bombsLeft: newBombs,
+        boardSizes: action.payload.boardSizes,
+        bombs: action.payload.bombs,
+        bombsLeft: action.payload.bombs,
       };
     case UPDATE_CELLS:
       return { ...state, cells: action.payload };
     case SET_STARTED:
       return { ...state, isGameStarted: action.payload };
-    case SET_BOMBS:
-      const bombPerCell = action.payload;
-      const bombs = Math.floor(
-        state.boardSizes.width * state.boardSizes.height * bombPerCell
-      );
-
+    case SET_BOMBS_PER_CELL:
       return {
         ...state,
-        bombsLeft: bombs,
-        bombPerCell,
-        bombs,
+        bombPerCell: action.payload.bombPerCell,
+        bombs: action.payload.bombs,
+        bombsLeft: action.payload.bombs,
       };
     case RESET_BOMBS_LEFT:
       return { ...state, bombsLeft: state.bombs };

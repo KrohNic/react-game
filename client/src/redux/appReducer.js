@@ -1,4 +1,4 @@
-import { VOLUME_LS_NAME } from '../constants';
+import { VOLUME } from '../constants/storageKeys';
 import {
   SHOW_END_WINDOW,
   HIDE_END_WINDOW,
@@ -12,7 +12,7 @@ const initialState = {
   isWin: false,
   records: [],
   isLoadPrompt: false,
-  volume: localStorage.getItem(VOLUME_LS_NAME) || 1,
+  volume: localStorage.getItem(VOLUME) || 1,
 };
 
 const endWindowReducer = (state = initialState, action) => {

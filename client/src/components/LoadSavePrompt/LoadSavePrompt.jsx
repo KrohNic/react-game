@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { SAVE_LS_NAME } from '../../constants';
+import { SAVE } from '../../constants/storageKeys';
 import { restoreGame, showLoadPrompt } from '../../redux/actions';
 import Modal from '../Modal';
 import './LoadSavePrompt.scss';
@@ -11,18 +11,18 @@ const LoadSavePrompt = () => {
   const dispatch = useDispatch();
 
   const loadGameHandler = () => {
-    const save = localStorage.getItem(SAVE_LS_NAME);
+    const save = localStorage.getItem(SAVE);
 
     if (!save) return ;
 
     const state = JSON.parse(save);
 
-    localStorage.removeItem(SAVE_LS_NAME);
+    localStorage.removeItem(SAVE);
     dispatch(restoreGame(state))
   }
 
   const newGameHandler = () => {
-    localStorage.removeItem(SAVE_LS_NAME);
+    localStorage.removeItem(SAVE);
 
     dispatch(showLoadPrompt(false));
   }

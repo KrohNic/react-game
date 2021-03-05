@@ -12,9 +12,10 @@ import {
   RESTORE_GAME,
   LOAD_PROMPT,
   SET_BOARD_SIZE,
-  SET_BOMBS,
+  SET_BOMBS_PER_CELL,
   SET_VOLUME,
 } from './types';
+import { getBombs } from '../utils';
 
 export const updateCells = (cells) => ({
   type: UPDATE_CELLS,
@@ -71,18 +72,24 @@ export const setVolume = (volume) => ({
   payload: volume,
 });
 
-export const setDifficulty = (bombPerCell) => (dispatch) => {
+export const setDifficulty = (bombPerCell) => (dispatch, getState) => {
+  const { boardSizes } = getState().game;
+  const bombs = getBombs(boardSizes, bombPerCell);
+
   dispatch({
-    type: SET_BOMBS,
-    payload: bombPerCell,
+    type: SET_BOMBS_PER_CELL,
+    payload: { bombPerCell, bombs },
   });
   dispatch(setGameStarted(false));
 };
 
-export const setBoardSize = (sizes) => (dispatch) => {
+export const setBoardSize = (boardSizes) => (dispatch, getState) => {
+  const { bombPerCell } = getState().game;
+  const bombs = getBombs(boardSizes, bombPerCell);
+
   dispatch({
     type: SET_BOARD_SIZE,
-    payload: sizes,
+    payload: { boardSizes, bombs },
   });
   dispatch(setGameStarted(false));
 };

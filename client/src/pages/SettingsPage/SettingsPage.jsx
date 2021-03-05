@@ -6,9 +6,7 @@ import VolumeMute from '@material-ui/icons/VolumeMute';
 import VolumeUp from '@material-ui/icons/VolumeUp';
 import { useDispatch, useSelector } from 'react-redux';
 import { EASY, NORMAL ,HARD } from '../../constants/difficulty';
-import { 
-  MEDIUM, SMALL, LARGE 
-} from '../../constants/boardSizes';
+import { MEDIUM, SMALL, LARGE } from '../../constants/boardSizes';
 import { setBoardSize, setDifficulty, setVolume } from '../../redux/actions';
 import './SettingsPage.scss';
 
@@ -26,6 +24,8 @@ const SettingsPage = () => {
   ];
 
   const difficultyHandler = (event) => {
+    console.log(event.target.value);
+    
     dispatch(setDifficulty(event.target.value));
   };
 

@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useSound from 'use-sound';
-import { newGame } from '../../redux/actions';
 import CloseIcon from '@material-ui/icons/Close';
 import CheckIcon from '@material-ui/icons/Check';
+import { newGame } from '../../redux/actions';
 import {HARD, NORMAL} from '../../constants/difficulty';
 import successSound from '../../assets/sound/success.mp3';
 import failureSound from '../../assets/sound/failure.mp3';
+import Modal from '../Modal';
 import './EndGameWindow.scss';
 
 const CLASS_NAME = "game_end";
@@ -68,28 +69,30 @@ const EndGameWindow = () => {
   })
 
   return (
-    <div className={CLASS_NAME}>
-      <h2 className={`${CLASS_NAME}--title`}>
-        {isWin ? 'You win!' : 'You lose'}
-      </h2>
-      <p>
-        Your time is 
-        <b> {time} </b>
-        seconds.
-      </p>
-      
-      <b>Previous games:</b>
-      <ul className={`${CLASS_NAME}--ul`}>
-        {recordsElemList}
-      </ul>
-      
-      <button
-        onClick={clickHandler}
-        className="waves-effect waves-light btn-large"
-      >
-        Next game
-      </button>
-    </div>
+    <Modal>
+      <div className={CLASS_NAME}>
+        <h2 className={`${CLASS_NAME}--title`}>
+          {isWin ? 'You win!' : 'You lose'}
+        </h2>
+        <p>
+          Your time is 
+          <b> {time} </b>
+          seconds.
+        </p>
+        
+        <b>Previous games:</b>
+        <ul className={`${CLASS_NAME}--ul`}>
+          {recordsElemList}
+        </ul>
+        
+        <button
+          onClick={clickHandler}
+          className="waves-effect waves-light btn-large"
+        >
+          Next game
+        </button>
+      </div>
+    </Modal>
   )
 }
 
