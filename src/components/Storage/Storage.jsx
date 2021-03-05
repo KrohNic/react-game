@@ -15,13 +15,14 @@ const Storage = () => {
     bombs,
     bombsLeft,
     cells,
-    bombPerCell
+    bombPerCell,
+    boardSizes
   } = useSelector(state => state.game);
-  const {width, height} = useSelector(state => state.game.boardSizes);
 
   useEffect(() => {
     if (!isGameEnded) return;
 
+    const {width, height} = boardSizes;
     const newRecord = {
       time, 
       isWin,
@@ -68,7 +69,7 @@ const Storage = () => {
 
     if (isGameEnded || !isGameStarted) return;
 
-    const state = {width, height, cells, bombPerCell, bombs, bombsLeft, time}
+    const state = {boardSizes, cells, bombPerCell, bombs, bombsLeft, time}
 
     localStorage.setItem(SAVE, JSON.stringify(state))
   });
