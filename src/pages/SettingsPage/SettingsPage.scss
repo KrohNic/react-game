@@ -1,3 +1,5 @@
+@import '../../constants/colors.scss';
+
 .settings {
   max-width: 1000px;
   margin: 0 auto;
@@ -17,8 +19,8 @@
     }
 
     &:hover {
-      background-color: rgba(0, 0, 0, 0.1);
-      box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.1);
+      background-color: $settings_item_bg-hover;
+      box-shadow: 0 0 5px 5px $settings_item_bg-hover;
     }
   }
 

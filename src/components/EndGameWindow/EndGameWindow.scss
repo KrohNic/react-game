@@ -1,3 +1,5 @@
+@import '../../constants/colors.scss';
+
 .game_end {
   display: flex;
   flex-direction: column;
@@ -20,13 +22,13 @@
 
   &--li-lose {
     svg {
-      color: red;
+      color: $record-lose;
     }
   }
 
   &--li-win {
     svg {
-      color: green;
+      color: $record-win;
     }
   }
 }

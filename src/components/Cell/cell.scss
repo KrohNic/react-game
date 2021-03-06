@@ -1,3 +1,5 @@
+@import '../../constants/colors.scss';
+
 .cell {
   width: 100%;
   padding-top: 100%;
@@ -24,12 +26,12 @@
   }
 
   &--reveal {
-    background-color: #ced5df;
-    color: black;
+    background-color: $cell_reveal_bg;
+    color: $cell_reveal;
   }
 
   %shared_tile {
-    background-color: #ddd;
+    background-color: $cell_till_bg;
     border: 4px;
     border-style: outset;
   }
@@ -37,7 +39,7 @@
   &--flag {
     @extend %shared_tile;
 
-    color: #dc0000;
+    color: $cell_flag;
 
     svg {
       height: 100%;
@@ -49,46 +51,48 @@
   &--btn {
     @extend %shared_tile;
 
-    &:hover,
-    &-highlighted {
-      background-color: rgba(255, 255, 255, 0.6);
+    z-index: 1;
+
+    &:hover {
+      background-color: $cell_btn-hover;
       cursor: pointer;
     }
 
     &:active {
-      background-color: rgba(85, 85, 85, 0.6);
+      background-color: $cell_btn-active;
+      border-style: inset;
     }
   }
 
   .color-1 {
-    color: #005f9d;
+    color: $cell_1;
   }
 
   .color-2 {
-    color: #00650d;
+    color: $cell_2;
   }
 
   .color-3 {
-    color: #b1002a;
+    color: $cell_3;
   }
 
   .color-4 {
-    color: #1500d7;
+    color: $cell_4;
   }
 
   .color-5 {
-    color: #b32000;
+    color: $cell_5;
   }
 
   .color-6 {
-    color: #006661;
+    color: $cell_6;
   }
 
   .color-7 {
-    color: #a200a8;
+    color: $cell_7;
   }
 
   .color-8 {
-    color: #a63100;
+    color: $cell_8;
   }
 }
