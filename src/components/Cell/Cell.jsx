@@ -1,20 +1,21 @@
 import React from 'react';
 import FlagIcon from '@material-ui/icons/Flag';
 import {BTN, FLAG, REVEAL} from '../../constants/cellTypes';
+import { CELL, CELL_BTN, CELL_FLAG, CELL_REVEAL } from './classNames';
 import './cell.scss';
 
 const CellBtn = ({value}) => (
-  <div className='cell--btn'>
+  <div className={CELL_BTN}>
     {value}
   </div>
 )
 
-const CellFlag = () => <div className="cell--flag">
+const CellFlag = () => <div className={CELL_FLAG}>
   <FlagIcon />
 </div>
 
 const CellNumber = ({children}) => {
-  let classNames = `cell--reveal color-${children}`;
+  let classNames = `${CELL_REVEAL} color-${children}`;
 
   return (
     <div className={classNames}>
@@ -42,7 +43,7 @@ const Cell = ({type, value, coord}) => {
   }
 
   return (
-    <div className="cell" data-coord-x={coord.x} data-coord-y={coord.y}>
+    <div className={CELL} data-coord-x={coord.x} data-coord-y={coord.y}>
       {cell}
     </div>
   )

@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { EASY, NORMAL ,HARD } from '../../constants/difficulty';
 import { MEDIUM, SMALL, LARGE } from '../../constants/boardSizes';
 import { setBoardSize, setDifficulty, setVolume } from '../../redux/actions';
+import { HUNDRED_PERCENT, VOLUME_MARKS } from './constants';
 import './SettingsPage.scss';
 
 const CLASS_NAME = 'settings';
@@ -18,10 +19,6 @@ const SettingsPage = () => {
   const difficulty = useSelector(state => state.game.bombPerCell)
   const boardSizes = useSelector(state => state.game.boardSizes)
   const volume = useSelector(state => state.app.volume)
-  const volumeMarks = [
-    { value: 0, label: 'MUTE' },
-    { value: 100, label: 'MAX' },
-  ];
 
   const difficultyHandler = (event) => {
     console.log(event.target.value);
@@ -34,7 +31,7 @@ const SettingsPage = () => {
   };
 
   const volumeHandler = (_, newValue) => {
-    dispatch(setVolume(newValue / 100));
+    dispatch(setVolume(newValue / HUNDRED_PERCENT));
   };
   
   const fullscreenSwitchHandler = () => {
@@ -105,11 +102,11 @@ const SettingsPage = () => {
         <div className={`${CLASS_NAME}--volume`}>
           <VolumeMute />
           <Slider 
-            value={volume * 100} 
+            value={volume * HUNDRED_PERCENT} 
             onChange={volumeHandler} 
             aria-labelledby="discrete-slider-custom"
             valueLabelDisplay="auto"
-            marks={volumeMarks}
+            marks={VOLUME_MARKS}
           />
           <VolumeUp />
         </div>

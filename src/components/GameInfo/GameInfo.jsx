@@ -10,6 +10,7 @@ const GameInfo = () => {
   const isGameEnded = useSelector(state => state.app.isGameEnded);
   const dispatch = useDispatch();
   const [timeInterval, setTimeInterval] = useState(null);
+  const timeFormatted = String(time).padStart(3, '0');
 
   useEffect(() => {
     if (!isGameStarted) return;
@@ -40,7 +41,7 @@ const GameInfo = () => {
       <span>
         Time:&nbsp;
         <b>
-          {String(time).padStart(3, '0')}
+          {timeFormatted}
         </b>
       </span>
     </div>
