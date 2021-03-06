@@ -4,11 +4,12 @@ import useSound from 'use-sound';
 import CloseIcon from '@material-ui/icons/Close';
 import CheckIcon from '@material-ui/icons/Check';
 import { newGame } from '../../redux/actions';
-import {HARD, NORMAL} from '../../constants/difficulty';
+import {descriptionLookup} from '../../constants/difficulty';
 import successSound from '../../assets/sound/success.mp3';
 import failureSound from '../../assets/sound/failure.mp3';
 import Modal from '../Modal';
 import './EndGameWindow.scss';
+import RecordItem from './RecordItem';
 
 const CLASS_NAME = "game_end";
 
@@ -35,37 +36,23 @@ const EndGameWindow = () => {
   }, [isWin, playSuccess, playFailure, stopPlaySuccess, stopPlayFailure])
 
   const recordsElemList = records.map(({isWin, time, size, difficulty, date}) => {
-    let className = `${CLASS_NAME}--li-lose`;
-    let title = "lose";
-    let recordIco = <CloseIcon />;
-    let difficultyDescription;
-
-    switch (Number(difficulty)) {
-      case NORMAL:
-        difficultyDescription = 'normal';
-        break;
-      case HARD:
-        difficultyDescription = 'hard';
-        break;
-    
-      default:
-        difficultyDescription = 'easy';
-        break;
+    const data = {
+      difficulty: descriptionLookup[difficulty],
+      className: `${CLASS_NAME}--li-lose`,
+      title: "lose",
+      recordIco: <CloseIcon />,
+      time,
+      size,
+      date
     }
 
     if(isWin) {
-      className = `${CLASS_NAME}--li-win`;
-      title = "win";
-      recordIco = <CheckIcon />
+      data.className = `${CLASS_NAME}--li-win`;
+      data.title = "win";
+      data.recordIco = <CheckIcon />
     }
 
-    return (
-      <li key={date} className={className} title={title}>
-        {recordIco}
-        {` ${time} sec, size: ${size}, difficulty: ${difficultyDescription}, `}
-        {`${new Date(date).toLocaleString()}`}
-      </li>
-    )
+    return <RecordItem {...data} />
   })
 
   return (
