@@ -1,51 +1,47 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { increaseTime } from '../../redux/actions';
-import './GameInfo.scss';
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import { increaseTime } from '../../redux/actions'
+import './GameInfo.scss'
 
 const GameInfo = () => {
-  const bombsLeft = useSelector(state => state.game.bombsLeft);
-  const time = useSelector(state => state.game.time);
-  const isGameStarted = useSelector(state => state.game.isGameStarted);
-  const isGameEnded = useSelector(state => state.app.isGameEnded);
-  const dispatch = useDispatch();
-  const [timeInterval, setTimeInterval] = useState(null);
-  const timeFormatted = String(time).padStart(3, '0');
+  const bombsLeft = useSelector((state) => state.game.bombsLeft)
+  const time = useSelector((state) => state.game.time)
+  const isGameStarted = useSelector((state) => state.game.isGameStarted)
+  const isGameEnded = useSelector((state) => state.app.isGameEnded)
+  const dispatch = useDispatch()
+  const [timeInterval, setTimeInterval] = useState(null)
+  const timeFormatted = String(time).padStart(3, '0')
 
   useEffect(() => {
-    if (!isGameStarted) return;
+    if (!isGameStarted) return
 
     let interval = setInterval(() => {
-      dispatch(increaseTime());
-    }, 1000);
+      dispatch(increaseTime())
+    }, 1000)
 
-    setTimeInterval(interval);
+    setTimeInterval(interval)
 
     return () => clearInterval(interval)
   }, [dispatch, isGameStarted])
 
   useEffect(() => {
     if (isGameEnded) {
-      clearInterval(timeInterval);
+      clearInterval(timeInterval)
     }
   }, [dispatch, isGameEnded, timeInterval])
 
   return (
-    <div className="info">
+    <div className='info'>
       <span>
         Bombs:&nbsp;
-        <b>
-          {bombsLeft}
-        </b>
+        <b>{bombsLeft}</b>
       </span>
       <span>
         Time:&nbsp;
-        <b>
-          {timeFormatted}
-        </b>
+        <b>{timeFormatted}</b>
       </span>
     </div>
   )
-};
+}
 
-export default GameInfo;
+export default GameInfo

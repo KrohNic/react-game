@@ -1,1 +1,1 @@
-export { default } from './LoadSavePrompt';
+export { default } from './LoadSavePrompt'

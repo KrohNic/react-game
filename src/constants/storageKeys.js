@@ -1,2 +1,2 @@
-export const SAVE = 'SAVE';
-export const VOLUME = 'VOLUME';
+export const SAVE = 'SAVE'
+export const VOLUME = 'VOLUME'

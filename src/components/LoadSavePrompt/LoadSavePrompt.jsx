@@ -1,49 +1,41 @@
-import React from 'react';
-import { useDispatch } from 'react-redux';
-import { SAVE } from '../../constants/storageKeys';
-import { restoreGame, showLoadPrompt } from '../../redux/actions';
-import Modal from '../Modal';
-import './LoadSavePrompt.scss';
+import React from 'react'
+import { useDispatch } from 'react-redux'
+import { SAVE } from '../../constants/storageKeys'
+import { restoreGame, showLoadPrompt } from '../../redux/actions'
+import Modal from '../Modal'
+import './LoadSavePrompt.scss'
 
-const CLASS_NAME = 'load_prompt';
+const CLASS_NAME = 'load_prompt'
 
 const LoadSavePrompt = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   const loadGameHandler = () => {
-    const save = localStorage.getItem(SAVE);
+    const save = localStorage.getItem(SAVE)
 
-    if (!save) return ;
+    if (!save) return
 
-    const state = JSON.parse(save);
+    const state = JSON.parse(save)
 
-    localStorage.removeItem(SAVE);
+    localStorage.removeItem(SAVE)
     dispatch(restoreGame(state))
   }
 
   const newGameHandler = () => {
-    localStorage.removeItem(SAVE);
+    localStorage.removeItem(SAVE)
 
-    dispatch(showLoadPrompt(false));
+    dispatch(showLoadPrompt(false))
   }
 
   return (
     <Modal>
-      <h5 className={`${CLASS_NAME}--title`}>
-        Would you like to load previous game?
-      </h5>
-      
+      <h5 className={`${CLASS_NAME}--title`}>Would you like to load previous game?</h5>
+
       <div className={`${CLASS_NAME}--buttons`}>
-        <button
-          onClick={loadGameHandler}
-          className="waves-effect waves-light btn-large"
-        >
+        <button onClick={loadGameHandler} className='waves-effect waves-light btn-large'>
           Load
         </button>
-        <button
-          onClick={newGameHandler}
-          className="waves-effect waves-light btn-large"
-        >
+        <button onClick={newGameHandler} className='waves-effect waves-light btn-large'>
           New game
         </button>
       </div>
@@ -51,4 +43,4 @@ const LoadSavePrompt = () => {
   )
 }
 
-export default LoadSavePrompt;
+export default LoadSavePrompt

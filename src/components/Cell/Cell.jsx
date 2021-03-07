@@ -1,45 +1,39 @@
-import React from 'react';
-import FlagIcon from '@material-ui/icons/Flag';
-import {BTN, FLAG, REVEAL} from '../../constants/cellTypes';
-import { CELL, CELL_BTN, CELL_FLAG, CELL_REVEAL } from './classNames';
-import './cell.scss';
+import React from 'react'
+import FlagIcon from '@material-ui/icons/Flag'
+import { BTN, FLAG, REVEAL } from '../../constants/cellTypes'
+import { CELL, CELL_BTN, CELL_FLAG, CELL_REVEAL } from './classNames'
+import './cell.scss'
 
-const CellBtn = ({value}) => (
-  <div className={CELL_BTN}>
-    {value}
+const CellBtn = ({ value }) => <div className={CELL_BTN}>{value}</div>
+
+const CellFlag = () => (
+  <div className={CELL_FLAG}>
+    <FlagIcon />
   </div>
 )
 
-const CellFlag = () => <div className={CELL_FLAG}>
-  <FlagIcon />
-</div>
+const CellNumber = ({ children }) => {
+  let classNames = `${CELL_REVEAL} color-${children}`
 
-const CellNumber = ({children}) => {
-  let classNames = `${CELL_REVEAL} color-${children}`;
-
-  return (
-    <div className={classNames}>
-      {children || ''}
-    </div>
-  )
+  return <div className={classNames}>{children || ''}</div>
 }
 
-const Cell = ({type, value, coord}) => {
-  let cell;
-  
+const Cell = ({ type, value, coord }) => {
+  let cell
+
   switch (type) {
     case BTN:
-      cell = <CellBtn /> 
-      break;
+      cell = <CellBtn />
+      break
     case FLAG:
       cell = <CellFlag />
-      break;
+      break
     case REVEAL:
       cell = <CellNumber>{value}</CellNumber>
-      break;
-  
+      break
+
     default:
-      break;
+      break
   }
 
   return (
@@ -49,4 +43,4 @@ const Cell = ({type, value, coord}) => {
   )
 }
 
-export default Cell;
+export default Cell

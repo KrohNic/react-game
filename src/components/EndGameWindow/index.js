@@ -1,1 +1,1 @@
-export {default} from './EndGameWindow';
+export { default } from './EndGameWindow'
