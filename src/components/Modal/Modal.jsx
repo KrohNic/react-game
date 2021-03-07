@@ -1,6 +1,7 @@
-import React from 'react'
-import { MODAL, MODAL_BG, MODAL_WINDOW } from './classNames'
-import './Modal.scss'
+import React from 'react';
+import PropTypes from 'prop-types';
+import { MODAL, MODAL_BG, MODAL_WINDOW } from './classNames';
+import './Modal.scss';
 
 const Modal = (props) => {
   return (
@@ -8,7 +9,11 @@ const Modal = (props) => {
       <div className={MODAL_BG} />
       <div className={MODAL_WINDOW}>{props.children}</div>
     </div>
-  )
-}
+  );
+};
 
-export default Modal
+Modal.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
+};
+
+export default Modal;

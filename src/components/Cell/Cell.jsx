@@ -1,46 +1,57 @@
-import React from 'react'
-import FlagIcon from '@material-ui/icons/Flag'
-import { BTN, FLAG, REVEAL } from '../../constants/cellTypes'
-import { CELL, CELL_BTN, CELL_FLAG, CELL_REVEAL } from './classNames'
-import './cell.scss'
+import React from 'react';
+import PropTypes from 'prop-types';
+import FlagIcon from '@material-ui/icons/Flag';
+import { BTN, FLAG, REVEAL } from '../../constants/cellTypes';
+import { CELL, CELL_BTN, CELL_FLAG, CELL_REVEAL } from './classNames';
+import './cell.scss';
 
-const CellBtn = ({ value }) => <div className={CELL_BTN}>{value}</div>
+const CellBtn = () => <div className={CELL_BTN}></div>;
 
 const CellFlag = () => (
   <div className={CELL_FLAG}>
     <FlagIcon />
   </div>
-)
+);
 
-const CellNumber = ({ children }) => {
-  let classNames = `${CELL_REVEAL} color-${children}`
+const CellReveal = ({ children }) => {
+  let classNames = `${CELL_REVEAL} color-${children}`;
 
-  return <div className={classNames}>{children || ''}</div>
-}
+  return <div className={classNames}>{children || ''}</div>;
+};
+
+CellReveal.propTypes = {
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+};
 
 const Cell = ({ type, value, coord }) => {
-  let cell
+  let cell;
 
   switch (type) {
     case BTN:
-      cell = <CellBtn />
-      break
+      cell = <CellBtn />;
+      break;
     case FLAG:
-      cell = <CellFlag />
-      break
+      cell = <CellFlag />;
+      break;
     case REVEAL:
-      cell = <CellNumber>{value}</CellNumber>
-      break
+      cell = <CellReveal>{value}</CellReveal>;
+      break;
 
     default:
-      break
+      break;
   }
 
   return (
     <div className={CELL} data-coord-x={coord.x} data-coord-y={coord.y}>
       {cell}
     </div>
-  )
-}
+  );
+};
 
-export default Cell
+Cell.propTypes = {
+  type: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  coord: PropTypes.object,
+};
+
+export default Cell;
