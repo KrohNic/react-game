@@ -20,6 +20,7 @@ const LoadSavePrompt = () => {
 
     localStorage.removeItem(SAVE);
     dispatch(restoreGame(state));
+    dispatch(showLoadPrompt(false));
   };
 
   const newGameHandler = () => {

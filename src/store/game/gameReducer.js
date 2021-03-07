@@ -5,13 +5,13 @@ import {
   SET_STARTED,
   DECREASE_BOMBS_LEFT,
   INCREASE_BOMBS_LEFT,
-  RESET_BOMBS_LEFT,
+  NEW_GAME,
   UPDATE_CELLS,
   SET_TIME,
   INCREASE_TIME,
   RESTORE_GAME,
   SET_BOARD_SIZE,
-  SET_BOMBS_PER_CELL
+  SET_BOMBS_PER_CELL,
 } from './gameTypes';
 
 const initialState = {
@@ -21,7 +21,7 @@ const initialState = {
   bombs: getBombs(SMALL, EASY),
   bombsLeft: 0,
   isGameStarted: false,
-  time: 0
+  time: 0,
 };
 
 const boardReducer = (state = initialState, action) => {
@@ -31,7 +31,8 @@ const boardReducer = (state = initialState, action) => {
         ...state,
         boardSizes: action.payload.boardSizes,
         bombs: action.payload.bombs,
-        bombsLeft: action.payload.bombs
+        bombsLeft: action.payload.bombs,
+        isGameStarted: false,
       };
     case UPDATE_CELLS:
       return { ...state, cells: action.payload };
@@ -42,10 +43,16 @@ const boardReducer = (state = initialState, action) => {
         ...state,
         bombPerCell: action.payload.bombPerCell,
         bombs: action.payload.bombs,
-        bombsLeft: action.payload.bombs
+        bombsLeft: action.payload.bombs,
+        isGameStarted: false,
       };
-    case RESET_BOMBS_LEFT:
-      return { ...state, bombsLeft: state.bombs };
+    case NEW_GAME:
+      return {
+        ...state,
+        bombsLeft: state.bombs,
+        time: 0,
+        isGameStarted: false,
+      };
     case RESTORE_GAME:
       return { ...state, ...action.payload, isGameStarted: true };
     case DECREASE_BOMBS_LEFT:
