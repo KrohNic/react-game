@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Minesweeper",
+  "name": "Minesweeper PWA game",
   "icons": [
     {
       "src": "favicon.ico",
@@ -11,6 +11,16 @@
       "src": "logo192.png",
       "type": "image/png",
       "sizes": "192x192"
+    },
+    {
+        "src": "/icon-256x256.png",
+        "sizes": "256x256",
+        "type": "image/png"
+    },
+    {
+        "src": "/icon-384x384.png",
+        "sizes": "384x384",
+        "type": "image/png"
     },
     {
       "src": "logo512.png",
