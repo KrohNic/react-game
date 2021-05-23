@@ -1,0 +1,34 @@
+@import '../../constants/colors.scss';
+
+.game_end {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  &--title {
+    margin-top: 0;
+  }
+
+  &--ul {
+    list-style: none;
+    font-size: 14px;
+    line-height: 100%;
+
+    li {
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &--li-lose {
+    svg {
+      color: $record-lose;
+    }
+  }
+
+  &--li-win {
+    svg {
+      color: $record-win;
+    }
+  }
+}

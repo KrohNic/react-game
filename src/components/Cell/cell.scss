@@ -1,0 +1,98 @@
+@import '../../constants/colors.scss';
+
+.cell {
+  width: 100%;
+  padding-top: 100%;
+  position: relative;
+
+  * {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 900;
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Chrome/Safari/Opera */
+    -khtml-user-select: none; /* Konqueror */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
+    z-index: -1;
+  }
+
+  &--reveal {
+    background-color: $cell_reveal_bg;
+    color: $cell_reveal;
+  }
+
+  %shared_tile {
+    background-color: $cell_till_bg;
+    border: 4px;
+    border-style: outset;
+  }
+
+  &--flag {
+    @extend %shared_tile;
+
+    color: $cell_flag;
+
+    svg {
+      height: 100%;
+      width: 100%;
+      padding: 20%;
+    }
+  }
+
+  &--btn {
+    @extend %shared_tile;
+
+    z-index: 1;
+
+    &:hover {
+      background-color: $cell_btn-hover;
+      cursor: pointer;
+    }
+
+    &:active {
+      background-color: $cell_btn-active;
+      border-style: inset;
+    }
+  }
+
+  .color-1 {
+    color: $cell_1;
+  }
+
+  .color-2 {
+    color: $cell_2;
+  }
+
+  .color-3 {
+    color: $cell_3;
+  }
+
+  .color-4 {
+    color: $cell_4;
+  }
+
+  .color-5 {
+    color: $cell_5;
+  }
+
+  .color-6 {
+    color: $cell_6;
+  }
+
+  .color-7 {
+    color: $cell_7;
+  }
+
+  .color-8 {
+    color: $cell_8;
+  }
+}
